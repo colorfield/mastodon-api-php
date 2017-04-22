@@ -1,0 +1,32 @@
+{
+    "require": {
+        "ext-curl": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.5,>=4.5.1"
+    },
+    "name": "r-daneelolivaw/mastodon-api-php",
+    "description": "PHP wrapper for Mastodon API",
+    "type": "library",
+    "keywords": [
+        "Mastodon",
+        "PHP",
+        "API"
+    ],
+    "homepage": "r-daneelolivaw/mastodon-api-php",
+    "license": "GNU Public License",
+    "authors": [
+        {
+            "name": "Christophe Jossart",
+            "homepage": "https://github.com/r-daneelolivaw/mastodon-api-php"
+        }
+    ],
+    "autoload": {
+        "files": ["MastodonAPI.php"]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
