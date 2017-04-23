@@ -1,32 +1,32 @@
 {
-    "require": {
-        "ext-curl": "*"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "~4.5,>=4.5.1"
-    },
     "name": "r-daneelolivaw/mastodon-api-php",
     "description": "PHP wrapper for Mastodon API",
     "type": "library",
     "keywords": [
         "Mastodon",
         "PHP",
-        "API"
+        "API",
+        "Rest"
     ],
     "homepage": "r-daneelolivaw/mastodon-api-php",
-    "license": "GNU Public License",
+    "license": "Apache License 2.0",
     "authors": [
         {
             "name": "Christophe Jossart",
             "homepage": "https://github.com/r-daneelolivaw/mastodon-api-php"
         }
     ],
-    "autoload": {
-        "files": ["MastodonAPI.php"]
+    "require": {
+        "php": "^5.5",
+        "guzzlehttp/guzzle": "^6.2",
+        "ext-curl": "*"
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
+    "require-dev": {
+        "phpunit/phpunit": "~4.5,>=4.5.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Colorfield\\Mastodon\\": "src/"
         }
     }
 }

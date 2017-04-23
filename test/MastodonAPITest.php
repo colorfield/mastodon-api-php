@@ -1,5 +1,7 @@
 <?php
 
+use Colorfield\Mastodon\MastodonAPI;
+
 /**
  * Class MastodonAPITest
  *
@@ -9,7 +11,7 @@ class MastodonAPITest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var \MastodonAPI
+     * @var MastodonAPI
      */
     protected $api;
 
@@ -18,9 +20,11 @@ class MastodonAPITest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $config = new ConfigurationVO();
+        $config = [
+          'instance' => 'https://mstdn.archi',
+        ];
         // @todo set configuration
-        $this->api = new \MastodonAPI($config);
+        $this->api = new MastodonAPI($config);
     }
 
 }

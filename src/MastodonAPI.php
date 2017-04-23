@@ -1,5 +1,7 @@
 <?php
 
+namespace Colorfield\Mastodon;
+
 /**
  * MastodonAPI
  *
@@ -15,29 +17,14 @@
 class MastodonAPI {
 
   /**
-   * @var string
-   */
-  const DEFAULT_INSTANCE_NAME = 'https://mastodon.social';
-
-  /**
-   * @var string
-   */
-  const API_VERSION = '/api/v1/';
-
-  /**
-   * @var string
-   */
-  const DEFAULT_TIME_OUT = 300;
-
-  /**
-   * @var string
-   */
-  public $baseUrl;
-
-  /**
    * @var mixed
    */
   protected $oAuth;
+
+  /**
+   * @var \Colorfield\Mastodon\ConfigurationVO
+   */
+  private $configVO;
 
   /**
    * The HTTP status code from the previous request.
@@ -51,23 +38,18 @@ class MastodonAPI {
    * Requires the cURL library.
    *
    * @throws \RuntimeException When cURL isn't loaded
-   * @throws \InvalidArgumentException When incomplete configuration properties are provided.
    *
-   * @param \ConfigurationVO $config
+   * @param array $config
    */
-  public function __construct(ConfigurationVO $config)
+  public function __construct(array $config)
   {
     if (!function_exists('curl_init'))
     {
-      throw new RuntimeException('MastodonAPI requires cURL extension to be loaded, see: http://curl.haxx.se/docs/install.html');
+      throw new \RuntimeException('MastodonAPI requires cURL extension to be loaded, see: http://curl.haxx.se/docs/install.html');
     }
 
-    if(is_null($config->getInstanceName()))
-    {
-      $config->setInstanceName(self::DEFAULT_INSTANCE_NAME);
-    }
-
-    $this->baseUrl = $config->getInstanceName() . self::API_VERSION;
+    // Set the value object.
+    $this->configVO = new ConfigurationVO($config);
   }
 
   public function get($endpoint)
