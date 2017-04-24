@@ -20,6 +20,11 @@ class ConfigurationVO {
   /**
    * @var string
    */
+  const DEFAULT_REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob';
+
+  /**
+   * @var string
+   */
   const DEFAULT_TIME_OUT = 300;
 
   /**
@@ -45,7 +50,7 @@ class ConfigurationVO {
   /**
    * @var string
    */
-  private $instance;
+  private $mastodonInstance;
 
   /**
    * @var string
@@ -61,6 +66,11 @@ class ConfigurationVO {
    * @var $string
    */
   private $redirectUri;
+
+  /**
+   * @var $string
+   */
+  private $website;
 
   /**
    * @var array
@@ -81,7 +91,7 @@ class ConfigurationVO {
   public function __construct(array $config) {
 
     // Throw exeception for mandatory params
-    if (!isset ($config['client_id']) || !isset ($config['client_secret'])) {
+    if (!isset ($config['client_id'])) {
       throw new \InvalidArgumentException('Incomplete configuration, see README.');
     }
 
@@ -89,6 +99,10 @@ class ConfigurationVO {
     $instance = empty ($config['instance_name']) ? self::DEFAULT_INSTANCE : $config['instance'];
     $this->setMastodonInstance($instance);
     $this->baseUrl = $this->getMastodonInstance() . self::API_VERSION;
+
+    // Default website to empty if not set.
+    $website = isset ($config['website']) ? '' : $config['website'];
+    $this->website = $website;
 
     // Mastodon defaults itself to read if no scope configured.
     if (!empty ($config['scopes'])) {
@@ -108,22 +122,106 @@ class ConfigurationVO {
   /**
    * @return string
    */
+  public function getBaseUrl() {
+    return $this->getBaseUrl();
+  }
+
+  /**
+   * @return string
+   */
   public function getMastodonInstance() {
-    return $this->instance;
+    return $this->mastodonInstance;
   }
 
   /**
    * @param string $instanceName
    */
   public function setMastodonInstance($instance) {
-    $this->instanceName = $instance;
+    $this->mastodonInstance = $instance;
   }
 
   /**
    * @return string
    */
-  public function getBaseUrl() {
-    return $this->getBaseUrl();
+  public function getClientId() {
+    return $this->clientId;
+  }
+
+  /**
+   * @param string $clientId
+   */
+  public function setClientId($clientId) {
+    $this->clientId = $clientId;
+  }
+
+  /**
+   * @return string
+   */
+  public function getClientSecret() {
+    return $this->clientSecret;
+  }
+
+  /**
+   * @param string $clientSecret
+   */
+  public function setClientSecret($clientSecret) {
+    $this->clientSecret = $clientSecret;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getRedirectUri() {
+    return $this->redirectUri;
+  }
+
+  /**
+   * @param mixed $redirectUri
+   */
+  public function setRedirectUri($redirectUri) {
+    $this->redirectUri = $redirectUri;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getWebsite() {
+    return $this->website;
+  }
+
+  /**
+   * @param mixed $website
+   */
+  public function setWebsite($website) {
+    $this->website = $website;
+  }
+
+  /**
+   * @return array
+   */
+  public function getToken() {
+    return $this->token;
+  }
+
+  /**
+   * @param array $token
+   */
+  public function setToken($token) {
+    $this->token = $token;
+  }
+
+  /**
+   * @return array
+   */
+  public function getScopes() {
+    return $this->scopes;
+  }
+
+  /**
+   * @param array $scopes
+   */
+  public function setScopes($scopes) {
+    $this->scopes = $scopes;
   }
 
 }

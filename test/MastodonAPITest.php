@@ -22,8 +22,13 @@ class MastodonAPITest extends \PHPUnit_Framework_TestCase
     {
         $config = [
           'instance' => 'https://mstdn.archi',
+          'client_id' => '',
+          'client_secret' => '',
+          'redirect_uri' => '',
+          'scopes' => 'read write follow',
+          'website' => 'https://colorfield.be',
         ];
-        // @todo set configuration
+
         $this->api = new MastodonAPI($config);
     }
 

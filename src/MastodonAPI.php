@@ -2,6 +2,10 @@
 
 namespace Colorfield\Mastodon;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Psr7\Request;
+
 /**
  * MastodonAPI
  *
@@ -22,30 +26,25 @@ class MastodonAPI {
   protected $oAuth;
 
   /**
+   * @var \GuzzleHttp\ClientInterface
+   */
+  private $client;
+
+  /**
    * @var \Colorfield\Mastodon\ConfigurationVO
    */
   private $configVO;
 
-  /**
-   * The HTTP status code from the previous request.
-   *
-   * @var int
-   */
-  protected $httpStatusCode;
 
   /**
-   * Creates the API access object.
-   * Requires the cURL library.
-   *
-   * @throws \RuntimeException When cURL isn't loaded
+   * Creates the API object.
    *
    * @param array $config
    */
   public function __construct(array $config) {
-    if (!function_exists('curl_init')) {
-      // @todo replace cURL by Guzzle to avoid this dependency issue
-      throw new \RuntimeException('MastodonAPI requires cURL extension to be loaded, see: http://curl.haxx.se/docs/install.html');
-    }
+
+    /** @var \GuzzleHttp\Client client */
+    $this->client = new Client();
 
     // Set the value object based on the configuration.
     try {
@@ -56,28 +55,42 @@ class MastodonAPI {
 
   }
 
-  public function get($endpoint) {
+  public function mastodonGet($endpoint, array $params = []) {
     // @todo implement
   }
 
-  public function post($endpoint) {
+  public function mastodonPost($endpoint, array $params = []) {
     // @todo implement
   }
 
-  public function delete($endpoint) {
+  public function mastodonDelete($endpoint, array $params = []) {
     // @todo implement
   }
 
-  public function stream($endpoint) {
+  public function mastodonStream($endpoint) {
     // @todo implement
   }
 
-  /**
-   * Get the HTTP status code for the previous request
-   *
-   * @return integer
-   */
-  public function getHttpStatusCode() {
-    return $this->httpStatusCode;
+  public function registerApplication() {
+    $parameters = [
+      'client_name' => $this->configVO->getClientId(),
+      'redirect_uris' => $this->configVO->getRedirectUri(),
+      'scopes' => $this->configVO->getScopes(),
+      'website' => $this->configVO->getWebsite(),
+    ];
+    $response = $this->client->post(
+      $this->configVO->getBaseUrl() . 'app',
+      $parameters
+    );
+    return $response;
   }
+
+  public function generateAuthLink() {
+    // @todo implement
+  }
+
+  public function  getAccessTokenFromAuthCode() {
+    // @todo implement
+  }
+
 }

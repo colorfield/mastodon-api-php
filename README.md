@@ -25,10 +25,17 @@ $configuration = [
   'client_secret' => '',
   'redirect_uri' => '',
   'scopes' => 'read write follow', // one are many, defaults to read if none
+  'website' => 'https://colorfield.be', // optional
 ]; 
 
 $api = new MastodonAPI($configuration); 
 
-// post a status
+// Get as status
+$api->get('statuses/1');
+
+// Post a status
 $api->post('statuses', ['status' => 'The answer is 42.']);
+
+// Delete a status
+$api->delete('statuses/1');
 ```
