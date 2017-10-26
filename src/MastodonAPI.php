@@ -9,87 +9,51 @@ use GuzzleHttp\Psr7\Request;
 /**
  * MastodonAPI
  *
- * PHP version 5.5.9
+ * PHP version >= 5.6.0
  *
  * @category Third party
  * @package  Mastodon-API-PHP
  * @author   Christophe Jossart <christophe@colorfield.eu>
  * @license  Apache License 2.0
- * @version  0.0.1
+ * @version  Release: <0.0.1>
  * @link     https://github.com/r-daneelolivaw/mastodon-api-php
  */
 class MastodonAPI {
 
   /**
-   * @var mixed
-   */
-  protected $oAuth;
-
-  /**
-   * @var \GuzzleHttp\ClientInterface
-   */
-  private $client;
-
-  /**
    * @var \Colorfield\Mastodon\ConfigurationVO
    */
-  private $configVO;
-
+  private $config;
 
   /**
    * Creates the API object.
    *
    * @param array $config
    */
-  public function __construct(array $config) {
-
+  public function __construct(ConfigurationVO $config) {
     /** @var \GuzzleHttp\Client client */
     $this->client = new Client();
 
-    // Set the value object based on the configuration.
     try {
-      $this->configVO = new ConfigurationVO($config);
+      $this->config = $config;
     }catch (\InvalidArgumentException $exception) {
       print($exception->getMessage());
     }
-
   }
 
-  public function mastodonGet($endpoint, array $params = []) {
+  public function get($endpoint, array $params = []) {
     // @todo implement
   }
 
-  public function mastodonPost($endpoint, array $params = []) {
+  public function post($endpoint, array $params = []) {
     // @todo implement
   }
 
-  public function mastodonDelete($endpoint, array $params = []) {
+  public function delete($endpoint, array $params = []) {
     // @todo implement
   }
 
-  public function mastodonStream($endpoint) {
-    // @todo implement
-  }
-
-  public function registerApplication() {
-    $parameters = [
-      'client_name' => $this->configVO->getClientId(),
-      'redirect_uris' => $this->configVO->getRedirectUri(),
-      'scopes' => $this->configVO->getScopes(),
-      'website' => $this->configVO->getWebsite(),
-    ];
-    $response = $this->client->post(
-      $this->configVO->getBaseUrl() . 'app',
-      $parameters
-    );
-    return $response;
-  }
-
-  public function generateAuthLink() {
-    // @todo implement
-  }
-
-  public function  getAccessTokenFromAuthCode() {
+  public function stream($endpoint) {
     // @todo implement
   }
 

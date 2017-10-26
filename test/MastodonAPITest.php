@@ -20,6 +20,7 @@ class MastodonAPITest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        // @todo update with ConfigVO
         $config = [
           'instance' => 'https://mstdn.archi',
           'client_id' => '',

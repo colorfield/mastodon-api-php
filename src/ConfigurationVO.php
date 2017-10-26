@@ -4,23 +4,36 @@ namespace Colorfield\Mastodon;
 
 /**
  * Class Configuration Value Object.
+ *
+ * Configuration used by the MastodonOAuth and MastodonAPI classes.
+ * @todo validate each setter
  */
 class ConfigurationVO {
 
   /**
    * @var string
    */
-  const DEFAULT_INSTANCE = 'https://mastodon.social';
+  const DEFAULT_INSTANCE = 'mastodon.social';
 
   /**
    * @var string
    */
-  const API_VERSION = '/api/v1/';
+  const DEFAULT_NAME = 'MastodonAPIPHP';
 
   /**
    * @var string
    */
-  const DEFAULT_REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob';
+  const API_VERSION = 'v1';
+
+  /**
+   * @var string
+   */
+  const DEFAULT_REDIRECT_URIS = 'urn:ietf:wg:oauth:2.0:oob';
+
+  /**
+   * @var string
+   */
+  const DEFAULT_WEBSITE = 'https://colorfield.be';
 
   /**
    * @var string
@@ -55,6 +68,11 @@ class ConfigurationVO {
   /**
    * @var string
    */
+  private $clientName;
+
+  /**
+   * @var string
+   */
   private $clientId;
 
   /**
@@ -63,9 +81,14 @@ class ConfigurationVO {
   private $clientSecret;
 
   /**
+   * @var string
+   */
+  private $bearer;
+
+  /**
    * @var $string
    */
-  private $redirectUri;
+  private $redirectUris;
 
   /**
    * @var $string
@@ -75,55 +98,94 @@ class ConfigurationVO {
   /**
    * @var array
    */
-  private $token;
+  private $authorizationCode;
 
   /**
    * @var array
    */
   private $scopes;
 
+
   /**
-   * Creates the Configuration Value Object.
+   * ConfigurationVO constructor.
+   *
+   * @param string $client_name
+   * @param string $mastodon_instance
+   */
+  public function __construct($client_name, $mastodon_instance) {
+    $this->setClientName($client_name);
+    $this->setMastodonInstance($mastodon_instance);
+    $this->setRedirectUris(self::DEFAULT_REDIRECT_URIS);
+    $this->setScopes(['read', 'write']);
+    $this->setWebsite(self::DEFAULT_WEBSITE);
+    $this->setBaseUrl();
+  }
+
+  /**
+   * Initializes the Configuration Value Object with oAuth credentials
+   *
+   * To be used by the MastodonAPI class after authentication.
+   * It should contain the client_id, client_secret and bearer.
    *
    * @throws \InvalidArgumentException
    * @param array $config
    */
-  public function __construct(array $config) {
-
+  public function setOAuthCredentials(array $config) {
+    // @todo change by using ConfigVO
     // Throw exeception for mandatory params
     if (!isset ($config['client_id'])) {
-      throw new \InvalidArgumentException('Incomplete configuration, see README.');
+      throw new \InvalidArgumentException('Missing client_id.');
     }
 
-    // Default to the main instance if no instance configured.
-    $instance = empty ($config['instance_name']) ? self::DEFAULT_INSTANCE : $config['instance'];
-    $this->setMastodonInstance($instance);
-    $this->baseUrl = $this->getMastodonInstance() . self::API_VERSION;
-
-    // Default website to empty if not set.
-    $website = isset ($config['website']) ? '' : $config['website'];
-    $this->website = $website;
-
-    // Mastodon defaults itself to read if no scope configured.
-    if (!empty ($config['scopes'])) {
-      $scopeValues = [self::SCOPE_READ, self::SCOPE_WRITE, self::SCOPE_FOLLOW];
-      $configuredScopes = explode(' ', $config);
-      // Check scope values
-      if (count(array_intersect($configuredScopes, $scopeValues)) == count($configuredScopes)) {
-        $this->scopes = $config['scopes'];
-      }
-      else {
-        throw new \InvalidArgumentException('Wrong scopes defined, expected one ore many from read write follow. See README.');
-      }
+    // Throw exeception for mandatory params
+    if (!isset ($config['client_secret'])) {
+      throw new \InvalidArgumentException('Missing client_secret.');
     }
 
+    // Throw exeception for mandatory params
+    if (!isset ($config['bearer'])) {
+      throw new \InvalidArgumentException('Missing client_secret.');
+    }
+  }
+
+  /**
+   * Checks if the credentials are already defined.
+   *
+   * @return bool
+   */
+  public function hasCredentials() {
+    return !empty($this->clientId) && !empty($this->clientSecret);
+  }
+
+  /**
+   * Returns the app configuration to be used to
+   * get the app authorization credentials (client_id and client_secret).
+   *
+   * @return array
+   */
+  public function getAppConfig() {
+    return [
+      'client_name'   => $this->getClientName(),
+      'redirect_uris' => $this->getRedirectUris(),
+      'scopes'        => $this->getScopes(),
+      'website'       => $this->getWebsite(),
+    ];
   }
 
   /**
    * @return string
    */
   public function getBaseUrl() {
-    return $this->getBaseUrl();
+    return $this->baseUrl;
+  }
+
+  /**
+   * Set the base url, enforces https.
+   */
+  private function setBaseUrl() {
+    $result = "https://{$this->getMastodonInstance()}";
+    $result .= '/api/'. ConfigurationVO::API_VERSION;
+    $this->baseUrl = $result;
   }
 
   /**
@@ -138,6 +200,20 @@ class ConfigurationVO {
    */
   public function setMastodonInstance($instance) {
     $this->mastodonInstance = $instance;
+  }
+
+  /**
+   * @return string
+   */
+  public function getClientName() {
+    return $this->clientName;
+  }
+
+  /**
+   * @param string $clientName
+   */
+  public function setClientName($clientName) {
+    $this->clientName = $clientName;
   }
 
   /**
@@ -169,17 +245,31 @@ class ConfigurationVO {
   }
 
   /**
+   * @return string
+   */
+  public function getBearer() {
+    return $this->bearer;
+  }
+
+  /**
+   * @param string $bearer
+   */
+  public function setBearer($bearer) {
+    $this->bearer = $bearer;
+  }
+
+  /**
    * @return mixed
    */
-  public function getRedirectUri() {
-    return $this->redirectUri;
+  public function getRedirectUris() {
+    return $this->redirectUris;
   }
 
   /**
    * @param mixed $redirectUri
    */
-  public function setRedirectUri($redirectUri) {
-    $this->redirectUri = $redirectUri;
+  public function setRedirectUris($redirectUris) {
+    $this->redirectUris = $redirectUris;
   }
 
   /**
@@ -193,35 +283,49 @@ class ConfigurationVO {
    * @param mixed $website
    */
   public function setWebsite($website) {
-    $this->website = $website;
+    if(!empty($website)) {
+      // @todo validation
+      $this->website = $website;
+    }
   }
 
   /**
    * @return array
    */
-  public function getToken() {
-    return $this->token;
+  public function getAuthorizationCode() {
+    return $this->authorizationCode;
   }
 
   /**
    * @param array $token
    */
-  public function setToken($token) {
-    $this->token = $token;
+  public function setAuthorizationCode($code) {
+    $this->authorizationCode = $code;
   }
 
   /**
    * @return array
    */
   public function getScopes() {
-    return $this->scopes;
+    return implode(' ', $this->scopes);
   }
 
   /**
    * @param array $scopes
    */
-  public function setScopes($scopes) {
-    $this->scopes = $scopes;
+  public function setScopes(array $scopes) {
+    // @todo
+    // Mastodon defaults itself to read if no scope configured.
+    if (!empty ($scopes)) {
+      $scopeValues = [self::SCOPE_READ, self::SCOPE_WRITE, self::SCOPE_FOLLOW];
+      // Check scope values
+      if (count(array_intersect($scopes, $scopeValues)) == count($scopes)) {
+        $this->scopes = $scopes;
+      }
+      else {
+        throw new \InvalidArgumentException('Wrong scopes defined, expected one ore many from read write follow. See README.');
+      }
+    }
   }
 
 }
