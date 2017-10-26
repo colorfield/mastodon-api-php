@@ -9,6 +9,8 @@
         "Rest"
     ],
     "homepage": "https://github.com/r-daneelolivaw/mastodon-api-php",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "license": "Apache License 2.0",
     "authors": [
         {
@@ -17,7 +19,7 @@
         }
     ],
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=5.6.0",
         "guzzlehttp/guzzle": "^6.2"
     },
     "require-dev": {

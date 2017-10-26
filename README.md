@@ -1,6 +1,6 @@
 # Mastodon API PHP
 
-PHP wrapper for the Mastodon API.
+PHP wrapper for the Mastodon API that includes oAuth helpers, Guzzle based.
 
 _**Still under development**, will be released on Packagist once ready._
 
@@ -8,9 +8,23 @@ _**Still under development**, will be released on Packagist once ready._
 
 To be installed via Composer.
 
-// Once one Packagist
+Currently, use this repository:
 
-`composer require colorfield/mastodon-api-php`
+```
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/r-daneelolivaw/mastodon-api-php"
+        }
+    ],
+    "require": {
+        "r-daneelolivaw/mastodon-api-php": "*"
+    }
+}
+```
+
+_Will be published on Packagist once a first release is achieved_
 
 ## Mastodon API and instances
 
