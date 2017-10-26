@@ -72,8 +72,9 @@ $authorizationUrl = $oAuth->getAuthorizationUrl();
         <div class="col-md-8"><a href="<?php echo $authorizationUrl ?>" target="_blank">Authorize</a></div>
       </div>
 
-      <h3>Authenticate</h3>
+      <h3>Use the API wrapper</h3>
 
+      <p>@todo</p>
 
     </div> <!-- /container -->
   </body>

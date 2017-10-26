@@ -37,8 +37,43 @@ This is a plain API wrapper, so the intention is to support further changes in t
 
 ## Authenticate with oAuth
 
-@todo update documentation
+### Register your application
+
+Give it a name and an optional instance. 
+The instance defaults to mastodon.social.
+
+```
+$name = 'MyMastodonApp';
+$instance = 'mastodon.social';
+$oAuth = new Colorfield\Mastodon\MastodonOAuth($name, $instance);
+```
+
+### Get the authorization code
+
+1. Get the authorization URL `$authorizationUrl = $oAuth->getAuthorizationUrl();`
+2. Go to this URL, authorize and copy the authorization code.
+
+### Get the bearer
+
+@todo create documentation
 
 ## Use the Mastodon API
 
-@todo update documentation
+### Instantiate the Mastodon API with the configuration
+
+The oAuth credentials should be stored from the configuration value object for later retrieval.
+Then you can use it in this way.
+
+```
+$config = new Colorfield\Mastodon\ConfigurationVO();
+$config->setClientName($name);
+$config->setMastodonInstance($instance);
+$config->setClientId('...');
+$config->setClientSecret('...');
+$config->setClientBearer('...');
+$mastodonAPI = new Colorfield\Mastodon\MastodonAPI($config);
+```
+
+### Use the API wrapper
+
+@todo create documentation
