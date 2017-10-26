@@ -70,7 +70,7 @@ $config->setClientName($name);
 $config->setMastodonInstance($instance);
 $config->setClientId('...');
 $config->setClientSecret('...');
-$config->setClientBearer('...');
+$config->setBearer('...');
 $mastodonAPI = new Colorfield\Mastodon\MastodonAPI($config);
 ```
 
