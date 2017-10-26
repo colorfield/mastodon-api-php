@@ -8,34 +8,34 @@ _**Still under development**, will be released on Packagist once ready._
 
 To be installed via Composer.
 
-## Using the API
+// Once one Packagist
 
-This is a wrapper, so the intention is to support further changes in the API by 
-letting the developer pass the desired endpoint.
+`composer require colorfield/mastodon-api-php`
+
+## Mastodon API and instances
+
+This is a plain API wrapper, so the intention is to support further changes in the API by letting the developer pass the desired endpoint.
 
 1. Get the [REST Mastodon documentation](https://github.com/tootsuite/documentation/blob/master/Using-the-API/API.md).
 2. Get an instance from the [instance list](https://instances.mastodon.xyz/list).
 
-``` 
-<?php
+## Quick test 
 
-$configuration = [
-  'instance" => 'https://my.mastodon.instance', // if no instance defined, assume the default one mastodon.social
-  'client_id' => '',
-  'client_secret' => '',
-  'redirect_uri' => '',
-  'scopes' => 'read write follow', // one are many, defaults to read if none
-  'website' => 'https://colorfield.be', // optional
-]; 
+1. Clone this repository.
+2. cd in the cloned directory
+2. Run `composer install`
+3. Run `php -S localhost:8000`
+4. In your browser, go to http://localhost:8000/test.php
+5. Open the authorization URL, confirm the authorization and copy the token.
+6. Get the bearer (@todo)
+7. Authenticate with your Mastodon username and password (@todo).
 
-$api = new MastodonAPI($configuration); 
+@todo screenshots
 
-// Get as status
-$api->get('statuses/1');
+## Authenticate with oAuth
 
-// Post a status
-$api->post('statuses', ['status' => 'The answer is 42.']);
+@todo update documentation
 
-// Delete a status
-$api->delete('statuses/1');
-```
+## Use the Mastodon API
+
+@todo update documentation
