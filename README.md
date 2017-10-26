@@ -30,7 +30,10 @@ This is a plain API wrapper, so the intention is to support further changes in t
 6. Get the bearer (@todo)
 7. Authenticate with your Mastodon username and password (@todo).
 
-@todo screenshots
+![Authorize your application](documentation/images/mastodon-authorize.png?raw=true "Authorize your application")
+
+![Authorize your application](documentation/images/mastodon-authorization-code.png?raw=true "Authorization code")
+
 
 ## Authenticate with oAuth
 
