@@ -1,36 +1,39 @@
 <?php
 
 use Colorfield\Mastodon\MastodonAPI;
+use Colorfield\Mastodon\MastodonOAuth;
 
 /**
  * Class MastodonAPITest
  *
- * Contains the integration tests
+ * Contains the integration tests.
  */
-class MastodonAPITest extends \PHPUnit_Framework_TestCase
-{
+class MastodonAPITest extends \PHPUnit_Framework_TestCase {
 
     /**
-     * @var MastodonAPI
+     * @var \Colorfield\Mastodon\MastodonAPI;
      */
     protected $api;
+
+    /**
+     * @var \Colorfield\Mastodon\MastodonOAuth
+     */
+    protected $oAuth;
 
     /**
      * {@inheritDoc}
      */
     public function setUp()
     {
-        // @todo update with ConfigVO
-        $config = [
-          'instance' => 'https://mstdn.archi',
-          'client_id' => '',
-          'client_secret' => '',
-          'redirect_uri' => '',
-          'scopes' => 'read write follow',
-          'website' => 'https://colorfield.be',
-        ];
-
-        $this->api = new MastodonAPI($config);
+        $name = 'MyMastodonApp';
+        $instance = 'mastodon.social';
+        $this->oAuth = new MastodonOAuth($name, $instance);
     }
 
+    public function testAuthorizationUrl()
+    {
+        $authorizationUrl = $this->oAuth->getAuthorizationUrl();
+        // @todo improve test
+        $this->assertNotEmpty($authorizationUrl);
+    }
 }
