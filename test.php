@@ -144,7 +144,7 @@ $authorizationUrl = $oAuth->getAuthorizationUrl();
     <h1>Test Mastodon API</h1>
 
     <h3>Authenticate</h3>
-    <h4>1. Click on authorize and get the token</h4>
+    <h4>1. Click on authorize and get the auth code</h4>
     <div class="row">
         <div class="col-md-4">client_id</div>
         <div class="col-md-8" id="client_id"><?php echo $oAuth->config->getClientId(); ?></div>
@@ -175,7 +175,7 @@ $authorizationUrl = $oAuth->getAuthorizationUrl();
 
     <div class="row"></div>
 
-    <h4>3. Login with bearer + email and password</h4>
+    <h4>3. Login with the bearer + email and password</h4>
 
     <div class="row">
         <div class="col-md-4">bearer</div>
