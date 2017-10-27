@@ -35,28 +35,24 @@ class MastodonOAuth {
   }
 
   /**
-   * Register the Mastodon application.
+   * Get response from the API.
    *
-   * Appends client_id and client_secret tp the configuration value object.
+   * @param $endpoint
+   * @param array $json
+   *
+   * @return mixed|null
    */
-  public function registerApplication() {
-    $result = NULL;
+  private function getResponse($endpoint, array $json) {
+    $result = null;
     // endpoint
-    $uri = $this->config->getBaseUrl() . '/apps';
+    $uri = $this->config->getBaseUrl() . $endpoint;
     try {
       $response = $this->client->post($uri, [
-          'json' => $this->config->getAppConfig(),
-        ]);
+        'json' => $json,
+      ]);
       // @todo $request->getHeader('content-type')
       if($response->getStatusCode() == '200') {
-        $credentials = json_decode($response->getBody(), true);
-        if (isset($credentials["client_id"])
-          && isset($credentials["client_secret"])) {
-          $this->config->setClientId($credentials['client_id']);
-          $this->config->setClientSecret($credentials['client_secret']);
-        }else {
-          echo 'ERROR: no credentials in API response';
-        }
+        $result = json_decode($response->getBody(), true);
       }else{
         echo 'ERROR: Status code ' . $response->getStatusCode();
       }
@@ -65,6 +61,23 @@ class MastodonOAuth {
       echo 'ERROR: ' . $exception->getMessage();
     }
     return $result;
+  }
+
+  /**
+   * Register the Mastodon application.
+   *
+   * Appends client_id and client_secret tp the configuration value object.
+   */
+  public function registerApplication() {
+    $options = $this->config->getAppConfig();
+    $credentials = $this->getResponse('/apps', $options);
+    if (isset($credentials["client_id"])
+      && isset($credentials["client_secret"])) {
+      $this->config->setClientId($credentials['client_id']);
+      $this->config->setClientSecret($credentials['client_secret']);
+    }else {
+      echo 'ERROR: no credentials in API response';
+    }
   }
 
   /**
@@ -86,6 +99,15 @@ class MastodonOAuth {
         "scope"            => $this->config->getScopes(),
         "client_id"        => $this->config->getClientId(),
       ]);
+  }
+
+  /**
+   *@todo description
+   */
+  public function getAccessTokenFromAuthCode() {
+    $result = NULL;
+    $uri = $this->config->getBaseUrl() . '/oauth/token';
+    return $result;
   }
 
   /**
@@ -111,15 +133,6 @@ class MastodonOAuth {
     else {
       // @todo
     }
-  }
-
-  /**
-   *@todo description
-   */
-  public function getAccessTokenFromAuthCode() {
-    $result = NULL;
-    // @todo implement
-    return $result;
   }
 
 }
