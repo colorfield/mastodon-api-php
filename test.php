@@ -74,7 +74,7 @@ $authorizationUrl = $oAuth->getAuthorizationUrl();
           // process the form
           $.ajax({
             type        : 'POST',
-            url         : 'https://mastodon.social/oauth/token',
+            url         : 'https://<?php echo $instance; ?>/oauth/token',
             data        : authData,
             dataType    : 'json',
             encode      : true
@@ -107,7 +107,7 @@ $authorizationUrl = $oAuth->getAuthorizationUrl();
           // process the form
           $.ajax({
             type        : 'POST',
-            url         : 'https://mastodon.social/oauth/token',
+            url         : 'https://<?php echo $instance; ?>/oauth/token',
             data        : authData,
             dataType    : 'json',
             encode      : true

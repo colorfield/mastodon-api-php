@@ -39,14 +39,18 @@ This is a plain API wrapper, so the intention is to support further changes in t
 
 ## Quick test 
 
+An interactive demo of the oAuth helper is available.
+
 1. Clone this repository.
 2. cd in the cloned directory
 2. Run `composer install`
 3. Run `php -S localhost:8000`
 4. In your browser, go to http://localhost:8000/test.php
-5. Open the authorization URL, confirm the authorization and copy the token.
-6. Get the bearer (@todo)
-7. Authenticate with your Mastodon username and password (@todo).
+5. You will get the client_id and client_secret, click on the authorization URL link, then confirm the authorization under Mastodon and copy the authorization code.
+6. Get the bearer: click on the "Get access token" button.
+7. Authenticate with your Mastodon username (email) and password: click on "Login".
+
+@todo interactive demo of Mastodon API wrapper.
 
 ![Authorize your application](documentation/images/mastodon-authorize.png?raw=true "Authorize your application")
 
@@ -73,7 +77,16 @@ $oAuth = new Colorfield\Mastodon\MastodonOAuth($name, $instance);
 
 ### Get the bearer
 
-@todo create documentation
+1. Store the authorization code in the configuration value object.
+`$oAuth->config->setAuthorizationCode(xxx);`
+
+2. Then get the access token. As a side effect, stores it on the configuration value object.
+`$oAuth->getAccessToken;`
+
+### User login
+
+Login with Mastodon email and password.
+`$oAuth->authenticateUser($email, $password);`
 
 ## Use the Mastodon API
 

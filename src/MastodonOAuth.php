@@ -127,9 +127,8 @@ class MastodonOAuth {
       $this->getAccessToken();
     }
     // @todo validate email address and password
-
     $options = $this->config->getUserAuthenticationConfiguration($email, $password);
-    // @todo try catch
+    // @todo test, returns the bearer if success
     $token = $this->getResponse('/oauth/token', $options);
   }
 
