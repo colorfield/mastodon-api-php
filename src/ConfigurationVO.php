@@ -163,13 +163,73 @@ class ConfigurationVO {
    *
    * @return array
    */
-  public function getAppConfig() {
+  public function getAppConfiguration() {
     return [
       'client_name'   => $this->getClientName(),
       'redirect_uris' => $this->getRedirectUris(),
       'scopes'        => $this->getScopes(),
       'website'       => $this->getWebsite(),
     ];
+  }
+
+  /**
+   * Returns the oAuth token configuration to be used to
+   * get the bearer.
+   *
+   * @return array
+   */
+  public function getAccessTokenConfiguration() {
+    return [
+      'grant_type'    => 'authorization_code',
+      "redirect_uri"  => $this->getRedirectUris(),
+      "client_id"     => $this->getClientId(),
+      "client_secret" => $this->getClientSecret(),
+      "code"          => $this->getAuthorizationCode(),
+    ];
+  }
+
+  /**
+   * Returns the user authentication configuration.
+   *
+   * @param $email
+   * @param $password
+   *
+   * @return array
+   */
+  public function getUserAuthenticationConfiguration($email, $password) {
+    return [
+      'grant_type'    => 'password',
+      'client_id'     => $this->getClientId(),
+      'client_secret' => $this->getClientSecret(),
+      'username'      => $email,
+      'password'      => $password,
+      'scope'         => $this->getScopes(),
+    ];
+  }
+
+  /**
+   * @return array
+   */
+  public function getScopes() {
+    return implode(' ', $this->scopes);
+  }
+
+  /**
+   * @param array $scopes
+   */
+  public function setScopes(array $scopes) {
+    // @todo
+    // Mastodon defaults itself to read if no scope configured.
+    if (!empty ($scopes)) {
+      $scopeValues = [self::SCOPE_READ, self::SCOPE_WRITE, self::SCOPE_FOLLOW];
+      // Check scope values
+      if (count(array_intersect($scopes, $scopeValues)) == count($scopes)) {
+        $this->scopes = $scopes;
+      }
+      else {
+        throw new \InvalidArgumentException('Wrong scopes defined, expected one ore many from read write follow. See README.');
+      }
+    }
   }
 
   /**
@@ -301,31 +361,6 @@ class ConfigurationVO {
    */
   public function setAuthorizationCode($code) {
     $this->authorizationCode = $code;
-  }
-
-  /**
-   * @return array
-   */
-  public function getScopes() {
-    return implode(' ', $this->scopes);
-  }
-
-  /**
-   * @param array $scopes
-   */
-  public function setScopes(array $scopes) {
-    // @todo
-    // Mastodon defaults itself to read if no scope configured.
-    if (!empty ($scopes)) {
-      $scopeValues = [self::SCOPE_READ, self::SCOPE_WRITE, self::SCOPE_FOLLOW];
-      // Check scope values
-      if (count(array_intersect($scopes, $scopeValues)) == count($scopes)) {
-        $this->scopes = $scopes;
-      }
-      else {
-        throw new \InvalidArgumentException('Wrong scopes defined, expected one ore many from read write follow. See README.');
-      }
-    }
   }
 
 }

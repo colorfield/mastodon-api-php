@@ -2,6 +2,10 @@
 
 PHP wrapper for the Mastodon API that includes oAuth helpers, Guzzle based.
 
+[![Build Status](https://travis-ci.org/r-daneelolivaw/mastodon-api-php.png)](https://travis-ci.org/r-daneelolivaw/mastodon-api-php)
+
+@todo UML diagram
+
 _**Still under development**, will be released on Packagist once ready._
 
 ## Getting started

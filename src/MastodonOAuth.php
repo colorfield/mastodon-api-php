@@ -69,7 +69,7 @@ class MastodonOAuth {
    * Appends client_id and client_secret tp the configuration value object.
    */
   public function registerApplication() {
-    $options = $this->config->getAppConfig();
+    $options = $this->config->getAppConfiguration();
     $credentials = $this->getResponse('/apps', $options);
     if (isset($credentials["client_id"])
       && isset($credentials["client_secret"])) {
@@ -102,37 +102,35 @@ class MastodonOAuth {
   }
 
   /**
-   *@todo description
+   * Gets the access token.
+   * As a side effect, stores it into the Configuration as bearer.
    */
-  public function getAccessTokenFromAuthCode() {
+  public function getAccessToken() {
     $result = NULL;
-    $uri = $this->config->getBaseUrl() . '/oauth/token';
-    return $result;
+    $options = $this->config->getAccessTokenConfiguration();
+    $token = $this->getResponse('/oauth/token', $options);
+    if (!isset($token['access_token'])) {
+      $this->config->setBearer($token['access_token']);
+    }else {
+      echo 'ERROR: no access token in API response';
+    }
   }
 
   /**
-   * @todo description
+   * Authenticates a user.
    *
-   * @return string
+   * @param $email
+   * @param $password
    */
-  public function getBearer($token) {
-    $result = NULL;
-    // @todo implement
-    return $result;
-  }
-
-  /**
-   * @todo description
-   *
-   * @param $token
-   */
-  public function authenticate($token) {
+  public function authenticateUser($email, $password) {
     if (empty($this->config->getBearer())) {
-      $this->getBearer($token);
+      $this->getAccessToken();
     }
-    else {
-      // @todo
-    }
+    // @todo validate email address and password
+
+    $options = $this->config->getUserAuthenticationConfiguration($email, $password);
+    // @todo try catch
+    $token = $this->getResponse('/oauth/token', $options);
   }
 
 }
