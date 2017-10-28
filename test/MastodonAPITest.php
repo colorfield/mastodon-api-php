@@ -30,6 +30,9 @@ class MastodonAPITest extends \PHPUnit_Framework_TestCase {
         $this->oAuth = new MastodonOAuth($name, $instance);
     }
 
+    // @todo test oAuth
+    // @todo test Mastodon API
+
     public function testAuthorizationUrl()
     {
         $authorizationUrl = $this->oAuth->getAuthorizationUrl();

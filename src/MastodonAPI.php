@@ -41,8 +41,37 @@ class MastodonAPI {
     }
   }
 
+  /**
+   * Request to an endpoint.
+   *
+   * @param $endpoint
+   * @param array $json
+   *
+   * @return mixed|null
+   */
+  private function getResponse($endpoint, array $json) {
+    $result = null;
+    $uri = $this->config->getBaseUrl() . '/api/';
+    $uri .= ConfigurationVO::API_VERSION . $endpoint;
+    try {
+      $response = $this->client->get($uri, [
+        'json' => $json,
+      ]);
+      // @todo $request->getHeader('content-type')
+      if($response->getStatusCode() == '200') {
+        $result = json_decode($response->getBody(), true);
+      }else{
+        echo 'ERROR: Status code ' . $response->getStatusCode();
+      }
+      // @todo check thrown exception
+    } catch (\Exception $exception) {
+      echo 'ERROR: ' . $exception->getMessage();
+    }
+    return $result;
+  }
+
   public function get($endpoint, array $params = []) {
-    // @todo implement
+    return $this->getResponse($endpoint, $params);
   }
 
   public function post($endpoint, array $params = []) {

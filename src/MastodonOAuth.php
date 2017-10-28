@@ -35,7 +35,7 @@ class MastodonOAuth {
   }
 
   /**
-   * Get response from the API.
+   * Get response from the endpoint.
    *
    * @param $endpoint
    * @param array $json
@@ -70,7 +70,7 @@ class MastodonOAuth {
    */
   public function registerApplication() {
     $options = $this->config->getAppConfiguration();
-    $credentials = $this->getResponse('/apps', $options);
+    $credentials = $this->getResponse('/api/'.ConfigurationVO::API_VERSION.'/apps', $options);
     if (isset($credentials["client_id"])
       && isset($credentials["client_secret"])) {
       $this->config->setClientId($credentials['client_id']);
@@ -109,7 +109,7 @@ class MastodonOAuth {
     $result = NULL;
     $options = $this->config->getAccessTokenConfiguration();
     $token = $this->getResponse('/oauth/token', $options);
-    if (!isset($token['access_token'])) {
+    if (isset($token['access_token'])) {
       $this->config->setBearer($token['access_token']);
     }else {
       echo 'ERROR: no access token in API response';
@@ -130,6 +130,7 @@ class MastodonOAuth {
     $options = $this->config->getUserAuthenticationConfiguration($email, $password);
     // @todo test, returns the bearer if success
     $token = $this->getResponse('/oauth/token', $options);
+    return $token;
   }
 
 }

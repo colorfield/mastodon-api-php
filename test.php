@@ -143,7 +143,7 @@ $authorizationUrl = $oAuth->getAuthorizationUrl();
 
     <h1>Test Mastodon API</h1>
 
-    <h3>Authenticate</h3>
+    <h2>Authenticate</h2>
     <h4>1. Click on authorize and get the auth code</h4>
     <div class="row">
         <div class="col-md-4">client_id</div>
@@ -207,7 +207,7 @@ $authorizationUrl = $oAuth->getAuthorizationUrl();
         <div class="col-md-8" id="login-result"></div>
     </div>
 
-    <h3>Use the API wrapper</h3>
+    <h2>Use the API wrapper</h2>
 
     <p>@todo</p>
 

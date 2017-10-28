@@ -112,7 +112,7 @@ class ConfigurationVO {
    * @param string $client_name
    * @param string $mastodon_instance
    */
-  public function __construct($client_name, $mastodon_instance) {
+  public function __construct($client_name = self::DEFAULT_NAME, $mastodon_instance = self::DEFAULT_INSTANCE) {
     $this->setClientName($client_name);
     $this->setMastodonInstance($mastodon_instance);
     $this->setRedirectUris(self::DEFAULT_REDIRECT_URIS);
@@ -181,10 +181,10 @@ class ConfigurationVO {
   public function getAccessTokenConfiguration() {
     return [
       'grant_type'    => 'authorization_code',
-      "redirect_uri"  => $this->getRedirectUris(),
-      "client_id"     => $this->getClientId(),
-      "client_secret" => $this->getClientSecret(),
-      "code"          => $this->getAuthorizationCode(),
+      'redirect_uri'  => $this->getRedirectUris(),
+      'client_id'     => $this->getClientId(),
+      'client_secret' => $this->getClientSecret(),
+      'code'          => $this->getAuthorizationCode(),
     ];
   }
 
@@ -244,7 +244,6 @@ class ConfigurationVO {
    */
   private function setBaseUrl() {
     $result = "https://{$this->getMastodonInstance()}";
-    $result .= '/api/'. ConfigurationVO::API_VERSION;
     $this->baseUrl = $result;
   }
 

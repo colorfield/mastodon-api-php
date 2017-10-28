@@ -96,13 +96,13 @@ The oAuth credentials should be stored from the configuration value object for l
 Then you can use it in this way.
 
 ```
-$config = new Colorfield\Mastodon\ConfigurationVO();
-$config->setClientName($name);
-$config->setMastodonInstance($instance);
-$config->setClientId('...');
-$config->setClientSecret('...');
-$config->setBearer('...');
-$mastodonAPI = new Colorfield\Mastodon\MastodonAPI($config);
+$name = 'MyMastodonApp';
+$instance = 'mastodon.social';
+$oAuth = new Colorfield\Mastodon\MastodonOAuth($name, $instance);
+$oAuth->config->setClientId('...');
+$oAuth->config->setClientSecret('...');
+$oAuth->config->setBearer('...');
+$mastodonAPI = new Colorfield\Mastodon\MastodonAPI($oAuth->config);
 ```
 
 ### Use the API wrapper
