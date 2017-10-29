@@ -55,6 +55,9 @@ class MastodonAPI {
     $uri .= ConfigurationVO::API_VERSION . $endpoint;
     try {
       $response = $this->client->get($uri, [
+        'headers' => [
+          'Authorization'     => 'Bearer ' . $this->config->getBearer(),
+        ],
         'json' => $json,
       ]);
       // @todo $request->getHeader('content-type')

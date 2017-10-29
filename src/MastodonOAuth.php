@@ -130,6 +130,7 @@ class MastodonOAuth {
     $options = $this->config->getUserAuthenticationConfiguration($email, $password);
     // @todo test, returns the bearer if success
     $token = $this->getResponse('/oauth/token', $options);
+    $this->config->setBearer($token['access_token']);
     return $token;
   }
 
