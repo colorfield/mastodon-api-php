@@ -19,7 +19,7 @@ $authorizationUrl = $oAuth->getAuthorizationUrl();
           content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Test Mastodon API</title>
+    <title>Test Mastodon API | oAuth</title>
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
           rel="stylesheet">
@@ -209,7 +209,7 @@ $authorizationUrl = $oAuth->getAuthorizationUrl();
 
     <h2>Use the API wrapper</h2>
 
-    <p>@todo</p>
+    <p>Go to <em><a href="test_api.php">test_api.php</a></em> in your browser after having defined the <em>test_credentials.php</em> file.</a></p>
 
 </div> <!-- /container -->
 </body>

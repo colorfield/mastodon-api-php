@@ -27,7 +27,7 @@ $login = $oAuth->authenticateUser($mastodon_email, $mastodon_password);
           content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Test Mastodon API | </title>
+    <title>Test Mastodon API | API methods</title>
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
           rel="stylesheet">
@@ -64,24 +64,53 @@ $login = $oAuth->authenticateUser($mastodon_email, $mastodon_password);
 
     <h1>Test Mastodon API</h1>
 
-    <p>@todo replace examples by get, post, delete, stream usage.</p>
-
-    <h2>Use the API wrapper</h2>
+    <h2>Get</h2>
     <div class="row">
-        <div class="col-md-4">/accounts/verify_credentials</div>
+        <div class="col-md-4"><code>/accounts/verify_credentials</code></div>
         <div class="col-md-8">
           <?php
           $credentials = $mastodonAPI->get('/accounts/verify_credentials');
+          $user = new Colorfield\Mastodon\UserVO($credentials);
           var_dump($credentials);
           ?>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4">/accounts/USER_ID/followers</div>
+        <div class="col-md-4"><code>/accounts/USER_ID/followers</code></div>
         <div class="col-md-8">
           <?php
-          $followers = $mastodonAPI->get('/accounts/' . $credentials['id'] . '/followers');
+          $followers = $mastodonAPI->get('/accounts/' . $user->id . '/followers');
           var_dump($followers);
+          ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4"><code>/accounts/search</code> <p>q='color', limit=10</p></div>
+        <div class="col-md-8">
+          <?php
+          $search = $mastodonAPI->get('/accounts/search', ['q' => 'colorfield', 'limit' => 10,]);
+          var_dump($search);
+          ?>
+        </div>
+    </div>
+
+    <h2>Post</h2>
+    <div class="row">
+        <div class="col-md-4"><code>/notifications/clear</code></div>
+        <div class="col-md-8">
+          <?php
+          $clearedNotifications = $mastodonAPI->post('/notifications/clear');
+          var_dump($clearedNotifications);
+          ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4"><code>/follows</code><p>uri='drupalship@mastodon.social'</p></div>
+        <div class="col-md-8">
+          <p>Your token should cover the 'follow' scope for this.</p>
+          <?php
+          //$followed = $mastodonAPI->post('/follows');
+          //var_dump($followed);
           ?>
         </div>
     </div>

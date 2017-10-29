@@ -49,14 +49,21 @@ class MastodonAPI {
    *
    * @return mixed|null
    */
-  private function getResponse($endpoint, array $json) {
+  private function getResponse($endpoint, $operation, array $json) {
     $result = null;
     $uri = $this->config->getBaseUrl() . '/api/';
     $uri .= ConfigurationVO::API_VERSION . $endpoint;
+
+    $allowedOperations = ['get', 'post'];
+    if(!in_array($operation, $allowedOperations)) {
+      echo 'ERROR: only ' . implode(',', $allowedOperations) . 'are allowed';
+      return $result;
+    }
+
     try {
-      $response = $this->client->get($uri, [
+      $response = $this->client->{$operation}($uri, [
         'headers' => [
-          'Authorization'     => 'Bearer ' . $this->config->getBearer(),
+          'Authorization' => 'Bearer ' . $this->config->getBearer(),
         ],
         'json' => $json,
       ]);
@@ -74,11 +81,11 @@ class MastodonAPI {
   }
 
   public function get($endpoint, array $params = []) {
-    return $this->getResponse($endpoint, $params);
+    return $this->getResponse($endpoint, 'get', $params);
   }
 
   public function post($endpoint, array $params = []) {
-    // @todo implement
+    return $this->getResponse($endpoint, 'post', $params);
   }
 
   public function delete($endpoint, array $params = []) {

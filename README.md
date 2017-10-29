@@ -71,6 +71,14 @@ $instance = 'mastodon.social';
 $oAuth = new Colorfield\Mastodon\MastodonOAuth($name, $instance);
 ```
 
+The default configuration is limited the the 'read' and 'write' scopes.
+You can modify it via
+
+```$oAuth->config->setScopes(['read', 'write', 'follow']);```
+
+Note that this must be done while obtaining the token so you cannot override this after.
+[More about scopes](https://github.com/tootsuite/documentation/blob/master/Using-the-API/OAuth-details.md).
+
 ### Get the authorization code
 
 1. Get the authorization URL `$authorizationUrl = $oAuth->getAuthorizationUrl();`
@@ -82,7 +90,7 @@ $oAuth = new Colorfield\Mastodon\MastodonOAuth($name, $instance);
 `$oAuth->config->setAuthorizationCode(xxx);`
 
 2. Then get the access token. As a side effect, stores it on the configuration value object.
-`$oAuth->getAccessToken;`
+`$oAuth->getAccessToken();`
 
 ## Use the Mastodon API
 
@@ -108,12 +116,23 @@ Login with Mastodon email and password.
 
 ### Use the API wrapper
 
-@todo replace examples by get, post, delete, stream usage.
+Here are a few examples of the API wrapper usage.
+Read the [full documentation](https://github.com/tootsuite/documentation/blob/master/Using-the-API/API.md).
 
-#### Verify credentials 
+#### Get 
+
+Get credentials
 
 ```$credentials = $mastodonAPI->get('/accounts/verify_credentials');```
 
-#### Get followers
+Get followers
 
-```$credentials = $mastodonAPI->get('/accounts/USER_ID/followers');```
+```$followers = $mastodonAPI->get('/accounts/USER_ID/followers');```
+
+#### Post
+
+Clear notifications
+
+```$clearedNotifications = $mastodonAPI->post('/notifications/clear');```
+
+@todo complete with delete and stream.
