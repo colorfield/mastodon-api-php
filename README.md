@@ -21,7 +21,7 @@ Currently, use this repository:
         }
     ],
     "require": {
-        "r-daneelolivaw/mastodon-api-php": "*"
+        "colorfield/mastodon-api-php": "*"
     }
 }
 ```
