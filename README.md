@@ -4,9 +4,7 @@ PHP wrapper for the Mastodon API that includes oAuth helpers, Guzzle based.
 
 [![Build Status](https://travis-ci.org/r-daneelolivaw/mastodon-api-php.png)](https://travis-ci.org/r-daneelolivaw/mastodon-api-php)
 
-@todo UML diagram
-
-_**Still under development**, will be released on Packagist once ready._
+_Will be published on Packagist once the 0.1.0 release is completed. Get the status on the [issue tracker](https://github.com/r-daneelolivaw/mastodon-api-php/issues?q=is%3Aopen+is%3Aissue+milestone%3A0.1.0)._
 
 ## Getting started
 
@@ -28,8 +26,6 @@ Currently, use this repository:
 }
 ```
 
-_Will be published on Packagist once a first release is achieved_
-
 ## Mastodon API and instances
 
 This is a plain API wrapper, so the intention is to support further changes in the API by letting the developer pass the desired endpoint.
@@ -39,23 +35,28 @@ This is a plain API wrapper, so the intention is to support further changes in t
 
 ## Quick test 
 
-An interactive demo of the oAuth helper is available.
+### oAuth
+
+An interactive demo is available.
 
 1. Clone this repository.
 2. cd in the cloned directory
 2. Run `composer install`
 3. Run `php -S localhost:8000`
-4. In your browser, go to http://localhost:8000/test.php
+4. In your browser, go to http://localhost:8000/test_oauth.php
 5. You will get the client_id and client_secret, click on the authorization URL link, then confirm the authorization under Mastodon and copy the authorization code.
 6. Get the bearer: click on the "Get access token" button.
 7. Authenticate with your Mastodon username (email) and password: click on "Login".
-
-@todo interactive demo of Mastodon API wrapper.
 
 ![Authorize your application](documentation/images/mastodon-authorize.png?raw=true "Authorize your application")
 
 ![Authorize your application](documentation/images/mastodon-authorization-code.png?raw=true "Authorization code")
 
+### Mastodon API
+
+1. Make your own copy of _test_credentials.example.php_ as _test_credentials.php_
+2. Define in _test_credentials.php_ the information obtained with oAuth and your Mastodon email and password.
+3. In your browser, go to http://localhost:8000/test_api.php
 
 ## Authenticate with oAuth
 
@@ -83,11 +84,6 @@ $oAuth = new Colorfield\Mastodon\MastodonOAuth($name, $instance);
 2. Then get the access token. As a side effect, stores it on the configuration value object.
 `$oAuth->getAccessToken;`
 
-### User login
-
-Login with Mastodon email and password.
-`$oAuth->authenticateUser($email, $password);`
-
 ## Use the Mastodon API
 
 ### Instantiate the Mastodon API with the configuration
@@ -105,6 +101,19 @@ $oAuth->config->setBearer('...');
 $mastodonAPI = new Colorfield\Mastodon\MastodonAPI($oAuth->config);
 ```
 
+### User login
+
+Login with Mastodon email and password.
+`$oAuth->authenticateUser($email, $password);`
+
 ### Use the API wrapper
 
-@todo create documentation
+@todo replace examples by get, post, delete, stream usage.
+
+#### Verify credentials 
+
+```$credentials = $mastodonAPI->get('/accounts/verify_credentials');```
+
+#### Get followers
+
+```$credentials = $mastodonAPI->get('/accounts/USER_ID/followers');```
