@@ -8,7 +8,8 @@ use Colorfield\Mastodon\MastodonOAuth;
  *
  * Contains the integration tests.
  */
-class MastodonAPITest extends \PHPUnit_Framework_TestCase {
+class MastodonAPITest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * @var \Colorfield\Mastodon\MastodonAPI;
