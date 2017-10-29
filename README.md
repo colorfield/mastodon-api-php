@@ -4,27 +4,11 @@ PHP wrapper for the Mastodon API that includes oAuth helpers, Guzzle based.
 
 [![Build Status](https://travis-ci.org/r-daneelolivaw/mastodon-api-php.png)](https://travis-ci.org/r-daneelolivaw/mastodon-api-php)
 
-_Will be published on Packagist once the 0.1.0 release is completed. Get the status on the [issue tracker](https://github.com/r-daneelolivaw/mastodon-api-php/issues?q=is%3Aopen+is%3Aissue+milestone%3A0.1.0)._
-
 ## Getting started
 
-To be installed via Composer.
+Install it via Composer.
 
-Currently, use this repository:
-
-```
-{
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/r-daneelolivaw/mastodon-api-php"
-        }
-    ],
-    "require": {
-        "colorfield/mastodon-api-php": "*"
-    }
-}
-```
+```composer require colorfield/mastodon-api-php```
 
 ## Mastodon API and instances
 
