@@ -23,7 +23,7 @@ This is a plain API wrapper, so the intention is to support further changes in t
 
 An interactive demo is available.
 
-1. Clone this repository.
+1. Clone the [GitHub repository](https://github.com/r-daneelolivaw/mastodon-api-php).
 2. cd in the cloned directory
 2. Run `composer install`
 3. Run `php -S localhost:8000`
