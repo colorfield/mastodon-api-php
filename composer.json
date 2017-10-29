@@ -1,5 +1,5 @@
 {
-    "name": "colorfield/mastodon-api-php",
+    "name": "colorfield/mastodon-api",
     "description": "PHP wrapper for Mastodon API",
     "type": "library",
     "keywords": [

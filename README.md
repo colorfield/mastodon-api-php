@@ -8,7 +8,7 @@ PHP wrapper for the Mastodon API that includes oAuth helpers, Guzzle based.
 
 Install it via Composer.
 
-```composer require colorfield/mastodon-api-php```
+```composer require colorfield/mastodon-api```
 
 ## Mastodon API and instances
 
