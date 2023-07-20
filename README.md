@@ -2,7 +2,7 @@
 
 PHP wrapper for the Mastodon API that includes oAuth helpers, Guzzle based.
 
-[![Build Status](https://travis-ci.org/r-daneelolivaw/mastodon-api-php.png)](https://travis-ci.org/r-daneelolivaw/mastodon-api-php)
+[![Build Status](https://travis-ci.org/colorfield/mastodon-api-php.png)](https://travis-ci.org/colorfield/mastodon-api-php)
 
 ## Getting started
 
@@ -14,16 +14,16 @@ Install it via Composer.
 
 This is a plain API wrapper, so the intention is to support further changes in the API by letting the developer pass the desired endpoint.
 
-1. Get the [REST Mastodon documentation](https://github.com/tootsuite/documentation/blob/master/Using-the-API/API.md).
+1. Get the [REST Mastodon documentation](https://docs.joinmastodon.org/client/intro/).
 2. Get an instance from the [instance list](https://instances.mastodon.xyz/list).
 
 ## Quick test 
 
-### oAuth
+### OAuth
 
 An interactive demo is available.
 
-1. Clone the [GitHub repository](https://github.com/r-daneelolivaw/mastodon-api-php).
+1. Clone the [GitHub repository](https://github.com/colorfield/mastodon-api-php).
 2. cd in the cloned directory
 2. Run `composer install`
 3. Run `php -S localhost:8000`

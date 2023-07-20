@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * MastodonAPI
  *
- * PHP version >= 5.6.0
+ * PHP version >= 8.1.0
  *
  * @category Third party
  * @package  Mastodon-API-PHP
