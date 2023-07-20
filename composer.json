@@ -8,14 +8,14 @@
         "API",
         "Rest"
     ],
-    "homepage": "https://github.com/r-daneelolivaw/mastodon-api-php",
+    "homepage": "https://github.com/colorfield/mastodon-api-php",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "license": "Apache-2.0",
     "authors": [
         {
             "name": "Christophe Jossart",
-            "homepage": "https://colorfield.be"
+            "homepage": "https://colorfield.dev"
         }
     ],
     "require": {
