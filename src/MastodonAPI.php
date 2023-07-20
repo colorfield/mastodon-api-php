@@ -10,14 +10,12 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * MastodonAPI
  *
- * PHP version >= 8.1.0
- *
  * @category Third party
  * @package  Mastodon-API-PHP
  * @author   Christophe Jossart <christophe@colorfield.eu>
  * @license  Apache License 2.0
  * @version  Release: <0.0.1>
- * @link     https://github.com/r-daneelolivaw/mastodon-api-php
+ * @link     https://github.com/colorfield/mastodon-api-php
  */
 class MastodonAPI
 {
@@ -34,7 +32,6 @@ class MastodonAPI
      */
     public function __construct(ConfigurationVO $config) 
     {
-        /** @var \GuzzleHttp\Client client */
         $this->client = new Client();
 
         try {

@@ -1,11 +1,8 @@
 <?php
 
-/**
- * Contains the ConfigurationVO class.
- * PHP version >= 5.6.0
- */
-
 namespace Colorfield\Mastodon;
+
+use InvalidArgumentException;
 
 /**
  * Class Configuration Value Object.
@@ -16,7 +13,6 @@ namespace Colorfield\Mastodon;
  */
 class ConfigurationVO
 {
-
     /**
      * Default instance domain, without the protocol.
      *
@@ -50,14 +46,7 @@ class ConfigurationVO
      *
      * @var string
      */
-    const DEFAULT_WEBSITE = 'https://colorfield.be';
-
-    /**
-     * Default time out.
-     *
-     * @var string
-     */
-    const DEFAULT_TIME_OUT = 300;
+    const DEFAULT_WEBSITE = 'https://colorfield.dev';
 
     /**
      * Read scope.
@@ -87,7 +76,7 @@ class ConfigurationVO
      *
      * @var string
      */
-    private $baseUrl;
+    private string $baseUrl;
 
     /**
      * Mastodon instance domain.
@@ -96,7 +85,7 @@ class ConfigurationVO
      *
      * @var string
      */
-    private $mastodonInstance;
+    private string $mastodonInstance;
 
     /**
      * Client name.
@@ -105,56 +94,57 @@ class ConfigurationVO
      *
      * @var string
      */
-    private $clientName;
+    private string $clientName;
 
     /**
      * Client ID obtained during the auth phase.
      *
      * @var string
      */
-    private $clientId;
+    private string $clientId;
 
     /**
      * Client secret obtained during the auth phase.
      *
      * @var string
      */
-    private $clientSecret;
+    private string $clientSecret;
 
     /**
      * Client bearer obtained during the auth phase.
      *
      * @var string
      */
-    private $bearer;
+    private string $bearer;
 
     /**
      * Redirect URI.
      *
+     * @fixme redirectUris is singular
      * @var string
      */
-    private $redirectUris;
+    private string $redirectUris;
 
     /**
      * Website, with the protocol.
      *
      * @var string
      */
-    private $website;
+    private string $website;
 
     /**
      * Authorization code obtained during the auth phase.
      *
      * @var string
      */
-    private $authorizationCode;
+    private string $authorizationCode;
 
     /**
      * Scopes. Possible values: read, write, follow.
      *
      * @var string
      */
-    private $scopes;
+    private string $scopes;
 
     /**
      * ConfigurationVO constructor.
@@ -164,7 +154,7 @@ class ConfigurationVO
      * @param string $client_name
      * @param string $mastodon_instance
      */
-    public function __construct($client_name = self::DEFAULT_NAME, $mastodon_instance = self::DEFAULT_INSTANCE)
+    public function __construct(string $client_name = self::DEFAULT_NAME, string $mastodon_instance = self::DEFAULT_INSTANCE)
     {
         $this->setClientName($client_name);
         $this->setMastodonInstance($mastodon_instance);
@@ -180,25 +170,25 @@ class ConfigurationVO
      * To be used by the MastodonAPI class after authentication.
      * It should contain the client_id, client_secret and bearer.
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @param  array $config
      */
-    public function setOAuthCredentials(array $config) 
+    public function setOAuthCredentials(array $config): void
     {
         // @todo change by using ConfigVO
-        // Throw exeception for mandatory params
+        // Throw exception for mandatory params
         if (!isset($config['client_id'])) {
-            throw new \InvalidArgumentException('Missing client_id.');
+            throw new InvalidArgumentException('Missing client_id.');
         }
 
         // Throw exeception for mandatory params
         if (!isset($config['client_secret'])) {
-            throw new \InvalidArgumentException('Missing client_secret.');
+            throw new InvalidArgumentException('Missing client_secret.');
         }
 
         // Throw exeception for mandatory params
         if (!isset($config['bearer'])) {
-            throw new \InvalidArgumentException('Missing client_secret.');
+            throw new InvalidArgumentException('Missing client_secret.');
         }
     }
 
@@ -207,7 +197,7 @@ class ConfigurationVO
      *
      * @return bool
      */
-    public function hasCredentials() 
+    public function hasCredentials(): bool
     {
         return !empty($this->clientId) && !empty($this->clientSecret);
     }
@@ -218,13 +208,13 @@ class ConfigurationVO
      *
      * @return array
      */
-    public function getAppConfiguration() 
+    public function getAppConfiguration(): array
     {
         return [
-        'client_name'   => $this->getClientName(),
-        'redirect_uris' => $this->getRedirectUris(),
-        'scopes'        => $this->getScopes(),
-        'website'       => $this->getWebsite(),
+            'client_name'   => $this->getClientName(),
+            'redirect_uris' => $this->getRedirectUris(),
+            'scopes'        => $this->getScopes(),
+            'website'       => $this->getWebsite(),
         ];
     }
 
@@ -234,41 +224,42 @@ class ConfigurationVO
      *
      * @return array
      */
-    public function getAccessTokenConfiguration() 
+    public function getAccessTokenConfiguration(): array
     {
         return [
-        'grant_type'    => 'authorization_code',
-        'redirect_uri'  => $this->getRedirectUris(),
-        'client_id'     => $this->getClientId(),
-        'client_secret' => $this->getClientSecret(),
-        'code'          => $this->getAuthorizationCode(),
+            'grant_type'    => 'authorization_code',
+            'redirect_uri'  => $this->getRedirectUris(),
+            'client_id'     => $this->getClientId(),
+            'client_secret' => $this->getClientSecret(),
+            'code'          => $this->getAuthorizationCode(),
         ];
     }
 
     /**
      * Returns the user authentication configuration.
      *
-     * @param $email
-     * @param $password
+     * @param string $email
+     * @param string $password
      *
      * @return array
      */
-    public function getUserAuthenticationConfiguration($email, $password) 
+    public function getUserAuthenticationConfiguration(string $email, string $password): array
     {
         return [
-        'grant_type'    => 'password',
-        'client_id'     => $this->getClientId(),
-        'client_secret' => $this->getClientSecret(),
-        'username'      => $email,
-        'password'      => $password,
-        'scope'         => $this->getScopes(),
+            'grant_type'    => 'password',
+            'client_id'     => $this->getClientId(),
+            'client_secret' => $this->getClientSecret(),
+            'username'      => $email,
+            'password'      => $password,
+            'scope'         => $this->getScopes(),
         ];
     }
 
     /**
-     * @return array
+     * @todo setting an array and getting a string is counterintuitive
+     * @return string
      */
-    public function getScopes() 
+    public function getScopes(): string
     {
         return implode(' ', $this->scopes);
     }
@@ -276,7 +267,7 @@ class ConfigurationVO
     /**
      * @param array $scopes
      */
-    public function setScopes(array $scopes) 
+    public function setScopes(array $scopes)
     {
         // @todo
         // Mastodon defaults itself to read if no scope configured.
@@ -285,9 +276,8 @@ class ConfigurationVO
             // Check scope values
             if (count(array_intersect($scopes, $scopeValues)) == count($scopes)) {
                 $this->scopes = $scopes;
-            }
-            else {
-                throw new \InvalidArgumentException('Wrong scopes defined, expected one ore many from read write follow. See README.');
+            } else {
+                throw new InvalidArgumentException('Wrong scopes defined, expected one ore many from read write follow. See README.');
             }
         }
     }
@@ -295,7 +285,7 @@ class ConfigurationVO
     /**
      * @return string
      */
-    public function getBaseUrl() 
+    public function getBaseUrl()
     {
         return $this->baseUrl;
     }
@@ -303,7 +293,7 @@ class ConfigurationVO
     /**
      * Set the base url, enforces https.
      */
-    private function setBaseUrl() 
+    private function setBaseUrl()
     {
         $result = "https://{$this->getMastodonInstance()}";
         $this->baseUrl = $result;
@@ -312,7 +302,7 @@ class ConfigurationVO
     /**
      * @return string
      */
-    public function getMastodonInstance() 
+    public function getMastodonInstance()
     {
         return $this->mastodonInstance;
     }
@@ -320,7 +310,7 @@ class ConfigurationVO
     /**
      * @param string $instanceName
      */
-    public function setMastodonInstance($instance) 
+    public function setMastodonInstance($instance)
     {
         $this->mastodonInstance = $instance;
     }
@@ -328,7 +318,7 @@ class ConfigurationVO
     /**
      * @return string
      */
-    public function getClientName() 
+    public function getClientName()
     {
         return $this->clientName;
     }
@@ -336,7 +326,7 @@ class ConfigurationVO
     /**
      * @param string $clientName
      */
-    public function setClientName($clientName) 
+    public function setClientName($clientName)
     {
         $this->clientName = $clientName;
     }
@@ -344,7 +334,7 @@ class ConfigurationVO
     /**
      * @return string
      */
-    public function getClientId() 
+    public function getClientId()
     {
         return $this->clientId;
     }
@@ -352,7 +342,7 @@ class ConfigurationVO
     /**
      * @param string $clientId
      */
-    public function setClientId($clientId) 
+    public function setClientId($clientId)
     {
         $this->clientId = $clientId;
     }
@@ -360,7 +350,7 @@ class ConfigurationVO
     /**
      * @return string
      */
-    public function getClientSecret() 
+    public function getClientSecret()
     {
         return $this->clientSecret;
     }
@@ -368,7 +358,7 @@ class ConfigurationVO
     /**
      * @param string $clientSecret
      */
-    public function setClientSecret($clientSecret) 
+    public function setClientSecret($clientSecret)
     {
         $this->clientSecret = $clientSecret;
     }
@@ -376,7 +366,7 @@ class ConfigurationVO
     /**
      * @return string
      */
-    public function getBearer() 
+    public function getBearer()
     {
         return $this->bearer;
     }
@@ -384,7 +374,7 @@ class ConfigurationVO
     /**
      * @param string $bearer
      */
-    public function setBearer($bearer) 
+    public function setBearer($bearer)
     {
         $this->bearer = $bearer;
     }
@@ -392,7 +382,7 @@ class ConfigurationVO
     /**
      * @return mixed
      */
-    public function getRedirectUris() 
+    public function getRedirectUris()
     {
         return $this->redirectUris;
     }
@@ -400,7 +390,7 @@ class ConfigurationVO
     /**
      * @param mixed $redirectUri
      */
-    public function setRedirectUris($redirectUris) 
+    public function setRedirectUris($redirectUris)
     {
         $this->redirectUris = $redirectUris;
     }
@@ -408,7 +398,7 @@ class ConfigurationVO
     /**
      * @return mixed
      */
-    public function getWebsite() 
+    public function getWebsite()
     {
         return $this->website;
     }
@@ -416,9 +406,9 @@ class ConfigurationVO
     /**
      * @param mixed $website
      */
-    public function setWebsite($website) 
+    public function setWebsite($website)
     {
-        if(!empty($website)) {
+        if (!empty($website)) {
             // @todo validation
             $this->website = $website;
         }
@@ -427,7 +417,7 @@ class ConfigurationVO
     /**
      * @return string
      */
-    public function getAuthorizationCode() 
+    public function getAuthorizationCode()
     {
         return $this->authorizationCode;
     }
@@ -435,9 +425,8 @@ class ConfigurationVO
     /**
      * @param array $token
      */
-    public function setAuthorizationCode($code) 
+    public function setAuthorizationCode($code)
     {
         $this->authorizationCode = $code;
     }
-
 }
