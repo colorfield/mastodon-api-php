@@ -2,9 +2,10 @@
 
 namespace Colorfield\Mastodon;
 
-use GuzzleHttp\Client;
+use Exception;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Psr7\Request;
+use InvalidArgumentException;
+use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -14,21 +15,25 @@ use Psr\Http\Message\ResponseInterface;
  * @package  Mastodon-API-PHP
  * @author   Christophe Jossart <christophe@colorfield.eu>
  * @license  Apache License 2.0
- * @version  Release: <0.0.1>
+ * @version  Release: <0.1.2>
  * @link     https://github.com/colorfield/mastodon-api-php
  */
 class MastodonAPI
 {
 
-    /**
-     * @var \Colorfield\Mastodon\ConfigurationVO
-     */
-    private $config;
+    // @todo use promoted properties
+    // @todo use enum for operations
+    // @todo throw for not implemented operations
+    // @todo improve return type for the api response
+
+    private ConfigurationVO $config;
+
+    private ClientInterface $client;
 
     /**
      * Creates the API object.
      *
-     * @param array $config
+     * @param ConfigurationVO $config
      */
     public function __construct(ConfigurationVO $config) 
     {
@@ -36,25 +41,31 @@ class MastodonAPI
 
         try {
             $this->config = $config;
-        }catch (\InvalidArgumentException $exception) {
+        }catch (InvalidArgumentException $exception) {
             print($exception->getMessage());
         }
     }
 
     /**
-     * Request to an endpoint.
+     * Sends a request to the specified API endpoint and returns the response.
      *
-     * @param $endpoint
+     * @param string $endpoint
+     *   The API endpoint to send the request to.
+     * @param string $operation
+     *   The HTTP method to use for the request ('get' or 'post').
      * @param array $json
+     *   An array of data to send with the request in JSON format.
      *
-     * @return mixed|null
+     * @return mixed
+     *   The response body from the API endpoint, or null if there was an error.
      */
-    private function getResponse($endpoint, $operation, array $json) 
+    private function getResponse(string $endpoint, string $operation, array $json): mixed
     {
         $result = null;
         $uri = $this->config->getBaseUrl() . '/api/';
         $uri .= ConfigurationVO::API_VERSION . $endpoint;
 
+        // @todo enum with solved this, no need for an exception
         $allowedOperations = ['get', 'post'];
         if(!in_array($operation, $allowedOperations)) {
             echo 'ERROR: only ' . implode(',', $allowedOperations) . 'are allowed';
@@ -76,7 +87,7 @@ class MastodonAPI
                 echo 'ERROR: Status code ' . $response->getStatusCode();
             }
             // @todo check thrown exception
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             echo 'ERROR: ' . $exception->getMessage();
         }
         return $result;
@@ -85,12 +96,12 @@ class MastodonAPI
     /**
      * Get operation.
      *
-     * @param $endpoint
+     * @param string $endpoint
      * @param array $params
      *
-     * @return mixed|null
+     * @return mixed
      */
-    public function get($endpoint, array $params = []) 
+    public function get(string $endpoint, array $params = []): mixed
     {
         return $this->getResponse($endpoint, 'get', $params);
     }
@@ -98,12 +109,11 @@ class MastodonAPI
     /**
      * Post operation.
      *
-     * @param $endpoint
+     * @param string $endpoint
      * @param array $params
-     *
-     * @return mixed|null
+     * @return mixed
      */
-    public function post($endpoint, array $params = []) 
+    public function post(string $endpoint, array $params = []): mixed
     {
         return $this->getResponse($endpoint, 'post', $params);
     }
@@ -111,19 +121,27 @@ class MastodonAPI
     /**
      * Delete operation.
      *
-     * @param $endpoint
+     * @param string $endpoint
      * @param array $params
      *
-     * @return mixed|null
+     * @return mixed
      */
-    public function delete($endpoint, array $params = []) 
+    public function delete(string $endpoint, array $params = []): mixed
     {
-        // @todo implement
+        throw new Exception('Delete operation is not implemented yet.');
     }
 
-    public function stream($endpoint) 
+    /**
+     * Stream operation.
+     *
+     * @param string $endpoint
+     * @param array $params
+     *
+     * @return mixed
+     */
+    public function stream(string $endpoint, array $params = []): mixed
     {
-        // @todo implement
+        throw new Exception('Stream operation is not implemented yet.');
     }
 
 }

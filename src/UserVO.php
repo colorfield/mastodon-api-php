@@ -12,7 +12,7 @@ namespace Colorfield\Mastodon;
  */
 class UserVO
 {
-    private function createProperty($name, $value)
+    private function createProperty(string $name, $value): void
     {
         $this->{$name} = $value;
     }

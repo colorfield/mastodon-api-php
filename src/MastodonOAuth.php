@@ -2,9 +2,9 @@
 
 namespace Colorfield\Mastodon;
 
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Psr7\Request;
 
 /**
  * Class MastodonOAuth.
@@ -14,15 +14,9 @@ use GuzzleHttp\Psr7\Request;
 class MastodonOAuth
 {
 
-    /**
-     * @var \Colorfield\Mastodon\ConfigurationVO
-     */
-    public $config;
+    public ConfigurationVO $config;
 
-    /**
-     * @var \GuzzleHttp\ClientInterface
-     */
-    private $client;
+    private ClientInterface $client;
 
     /**
      * Creates the OAuth object from the configuration.
@@ -30,21 +24,20 @@ class MastodonOAuth
     public function __construct($client_name = ConfigurationVO::DEFAULT_NAME,
         $mastodon_instance = ConfigurationVO::DEFAULT_INSTANCE
     ) {
+        // @todo use promoted properties
         $this->config = new ConfigurationVO($client_name, $mastodon_instance);
-
-        /** @var \GuzzleHttp\Client client */
         $this->client = new Client();
     }
 
     /**
      * Get response from the endpoint.
      *
-     * @param $endpoint
+     * @param string $endpoint
      * @param array $json
      *
-     * @return mixed|null
+     * @return mixed
      */
-    private function getResponse($endpoint, array $json) 
+    private function getResponse(string $endpoint, array $json): mixed
     {
         $result = null;
         // endpoint
@@ -52,17 +45,17 @@ class MastodonOAuth
         try {
             $response = $this->client->post(
                 $uri, [
-                'json' => $json,
+                    'json' => $json,
                 ]
             );
             // @todo $request->getHeader('content-type')
-            if($response->getStatusCode() == '200') {
+            if ($response->getStatusCode() == '200') {
                 $result = json_decode($response->getBody(), true);
-            }else{
+            } else {
                 echo 'ERROR: Status code ' . $response->getStatusCode();
             }
             // @todo check thrown exception
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             echo 'ERROR: ' . $exception->getMessage();
         }
         return $result;
@@ -71,9 +64,11 @@ class MastodonOAuth
     /**
      * Register the Mastodon application.
      *
-     * Appends client_id and client_secret tp the configuration value object.
+     * Appends client_id and client_secret to the configuration value object.
+     *
+     * @return void
      */
-    public function registerApplication() 
+    public function registerApplication(): void
     {
         $options = $this->config->getAppConfiguration();
         $credentials = $this->getResponse(
@@ -85,7 +80,7 @@ class MastodonOAuth
         ) {
             $this->config->setClientId($credentials['client_id']);
             $this->config->setClientSecret($credentials['client_secret']);
-        }else {
+        } else {
             echo 'ERROR: no credentials in API response';
         }
     }
@@ -96,13 +91,11 @@ class MastodonOAuth
      *
      * @return string
      */
-    public function getAuthorizationUrl() 
+    public function getAuthorizationUrl(): string
     {
-        $result = null;
         if (!$this->config->hasCredentials()) {
             $this->registerApplication();
         }
-        //Return the Authorization URL
         return "https://{$this->config->getMastodonInstance()}/oauth/authorize/?".http_build_query(
             [
             "response_type"    => "code",
@@ -117,10 +110,11 @@ class MastodonOAuth
     /**
      * Gets the access token.
      * As a side effect, stores it into the Configuration as bearer.
+     *
+     * @todo fix name and side effect, we expect a return value here
      */
-    public function getAccessToken() 
+    public function getAccessToken(): void
     {
-        $result = null;
         $options = $this->config->getAccessTokenConfiguration();
         $token = $this->getResponse('/oauth/token', $options);
         if (isset($token['access_token'])) {
@@ -133,10 +127,12 @@ class MastodonOAuth
     /**
      * Authenticates a user.
      *
-     * @param $email
-     * @param $password
+     * @param string $email
+     * @param string $password
+     *
+     * @return array
      */
-    public function authenticateUser($email, $password) 
+    public function authenticateUser(string $email, string $password): array
     {
         if (empty($this->config->getBearer())) {
             $this->getAccessToken();

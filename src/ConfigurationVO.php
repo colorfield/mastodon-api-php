@@ -142,9 +142,9 @@ class ConfigurationVO
     /**
      * Scopes. Possible values: read, write, follow.
      *
-     * @var string
+     * @var array
      */
-    private string $scopes;
+    private array $scopes;
 
     /**
      * ConfigurationVO constructor.
@@ -256,7 +256,7 @@ class ConfigurationVO
     }
 
     /**
-     * @todo setting an array and getting a string is counterintuitive
+     * @fixme setting an array and getting a string is counterintuitive
      * @return string
      */
     public function getScopes(): string
@@ -272,6 +272,7 @@ class ConfigurationVO
         // @todo
         // Mastodon defaults itself to read if no scope configured.
         if (!empty($scopes)) {
+            // @todo use enum for scopes
             $scopeValues = [self::SCOPE_READ, self::SCOPE_WRITE, self::SCOPE_FOLLOW];
             // Check scope values
             if (count(array_intersect($scopes, $scopeValues)) == count($scopes)) {
@@ -285,7 +286,7 @@ class ConfigurationVO
     /**
      * @return string
      */
-    public function getBaseUrl()
+    public function getBaseUrl(): string
     {
         return $this->baseUrl;
     }
@@ -293,7 +294,7 @@ class ConfigurationVO
     /**
      * Set the base url, enforces https.
      */
-    private function setBaseUrl()
+    private function setBaseUrl(): void
     {
         $result = "https://{$this->getMastodonInstance()}";
         $this->baseUrl = $result;
@@ -302,15 +303,15 @@ class ConfigurationVO
     /**
      * @return string
      */
-    public function getMastodonInstance()
+    public function getMastodonInstance(): string
     {
         return $this->mastodonInstance;
     }
 
     /**
-     * @param string $instanceName
+     * @param string $instance
      */
-    public function setMastodonInstance($instance)
+    public function setMastodonInstance(string $instance): void
     {
         $this->mastodonInstance = $instance;
     }
@@ -318,7 +319,7 @@ class ConfigurationVO
     /**
      * @return string
      */
-    public function getClientName()
+    public function getClientName(): string
     {
         return $this->clientName;
     }
@@ -326,7 +327,7 @@ class ConfigurationVO
     /**
      * @param string $clientName
      */
-    public function setClientName($clientName)
+    public function setClientName(string $clientName): void
     {
         $this->clientName = $clientName;
     }
@@ -334,7 +335,7 @@ class ConfigurationVO
     /**
      * @return string
      */
-    public function getClientId()
+    public function getClientId(): string
     {
         return $this->clientId;
     }
@@ -342,7 +343,7 @@ class ConfigurationVO
     /**
      * @param string $clientId
      */
-    public function setClientId($clientId)
+    public function setClientId(string $clientId): void
     {
         $this->clientId = $clientId;
     }
@@ -350,7 +351,7 @@ class ConfigurationVO
     /**
      * @return string
      */
-    public function getClientSecret()
+    public function getClientSecret(): string
     {
         return $this->clientSecret;
     }
@@ -358,7 +359,7 @@ class ConfigurationVO
     /**
      * @param string $clientSecret
      */
-    public function setClientSecret($clientSecret)
+    public function setClientSecret(string $clientSecret): void
     {
         $this->clientSecret = $clientSecret;
     }
@@ -366,7 +367,7 @@ class ConfigurationVO
     /**
      * @return string
      */
-    public function getBearer()
+    public function getBearer(): string
     {
         return $this->bearer;
     }
@@ -374,39 +375,39 @@ class ConfigurationVO
     /**
      * @param string $bearer
      */
-    public function setBearer($bearer)
+    public function setBearer(string $bearer): void
     {
         $this->bearer = $bearer;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getRedirectUris()
+    public function getRedirectUris(): string
     {
         return $this->redirectUris;
     }
 
     /**
-     * @param mixed $redirectUri
+     * @param string $redirectUris
      */
-    public function setRedirectUris($redirectUris)
+    public function setRedirectUris(string $redirectUris): void
     {
         $this->redirectUris = $redirectUris;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getWebsite()
+    public function getWebsite(): string
     {
         return $this->website;
     }
 
     /**
-     * @param mixed $website
+     * @param string $website
      */
-    public function setWebsite($website)
+    public function setWebsite(string $website): void
     {
         if (!empty($website)) {
             // @todo validation
@@ -417,15 +418,15 @@ class ConfigurationVO
     /**
      * @return string
      */
-    public function getAuthorizationCode()
+    public function getAuthorizationCode(): string
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @param array $token
+     * @param string $code
      */
-    public function setAuthorizationCode($code)
+    public function setAuthorizationCode(string $code): void
     {
         $this->authorizationCode = $code;
     }
