@@ -1,5 +1,7 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Assert;
 use Colorfield\Mastodon\MastodonAPI;
 use Colorfield\Mastodon\MastodonOAuth;
 
@@ -8,7 +10,7 @@ use Colorfield\Mastodon\MastodonOAuth;
  *
  * Contains the integration tests.
  */
-class MastodonAPITest extends \PHPUnit_Framework_TestCase
+final class MastodonAPITest extends TestCase
 {
 
     /**
@@ -24,7 +26,7 @@ class MastodonAPITest extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritDoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $name = 'MyMastodonApp';
         $instance = 'mastodon.social';
@@ -37,7 +39,6 @@ class MastodonAPITest extends \PHPUnit_Framework_TestCase
     public function testAuthorizationUrl()
     {
         $authorizationUrl = $this->oAuth->getAuthorizationUrl();
-        // @todo improve test
-        $this->assertNotEmpty($authorizationUrl);
+        Assert::assertNotEmpty($authorizationUrl);
     }
 }
