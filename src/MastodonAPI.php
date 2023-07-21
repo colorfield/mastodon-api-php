@@ -8,6 +8,14 @@ use InvalidArgumentException;
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
 
+enum HttpOperations {
+    case GET;
+    case POST;
+    case PUT;
+    case PATCH;
+    case DELETE;
+}
+
 /**
  * MastodonAPI
  *
@@ -22,8 +30,6 @@ class MastodonAPI
 {
 
     // @todo use promoted properties
-    // @todo use enum for operations
-    // @todo throw for not implemented operations
     // @todo improve return type for the api response
 
     private ConfigurationVO $config;
@@ -51,7 +57,7 @@ class MastodonAPI
      *
      * @param string $endpoint
      *   The API endpoint to send the request to.
-     * @param string $operation
+     * @param string $method
      *   The HTTP method to use for the request ('get' or 'post').
      * @param array $json
      *   An array of data to send with the request in JSON format.
@@ -59,25 +65,23 @@ class MastodonAPI
      * @return mixed
      *   The response body from the API endpoint, or null if there was an error.
      */
-    private function getResponse(string $endpoint, string $operation, array $json): mixed
+    private function getResponse(string $endpoint, string $method, array $json): mixed
     {
         $result = null;
         $uri = $this->config->getBaseUrl() . '/api/';
         $uri .= ConfigurationVO::API_VERSION . $endpoint;
 
-        // @todo enum with solved this, no need for an exception
-        $allowedOperations = ['get', 'post'];
-        if(!in_array($operation, $allowedOperations)) {
-            echo 'ERROR: only ' . implode(',', $allowedOperations) . 'are allowed';
-            return $result;
+        $allowedMethods = array_column(HttpOperations::cases(), 'name');
+        if (!in_array($method, $allowedMethods)) {
+            throw new InvalidArgumentException('ERROR: only ' . implode(',', $allowedMethods) . 'are allowed');
         }
 
         try {
-            $response = $this->client->{$operation}($uri, [
-            'headers' => [
-              'Authorization' => 'Bearer ' . $this->config->getBearer(),
-            ],
-            'json' => $json,
+            $response = $this->client->request($method, $uri, [
+                'headers' => [
+                  'Authorization' => 'Bearer ' . $this->config->getBearer(),
+                ],
+                'json' => $json,
             ]);
             // @todo $request->getHeader('content-type')
             if($response instanceof ResponseInterface
@@ -94,7 +98,7 @@ class MastodonAPI
     }
 
     /**
-     * Get operation.
+     * Get method.
      *
      * @param string $endpoint
      * @param array $params
@@ -103,11 +107,11 @@ class MastodonAPI
      */
     public function get(string $endpoint, array $params = []): mixed
     {
-        return $this->getResponse($endpoint, 'get', $params);
+        return $this->getResponse($endpoint, 'GET', $params);
     }
 
     /**
-     * Post operation.
+     * Post method.
      *
      * @param string $endpoint
      * @param array $params
@@ -115,11 +119,35 @@ class MastodonAPI
      */
     public function post(string $endpoint, array $params = []): mixed
     {
-        return $this->getResponse($endpoint, 'post', $params);
+        return $this->getResponse($endpoint, 'POST', $params);
     }
 
     /**
-     * Delete operation.
+     * PUT method.
+     *
+     * @param string $endpoint
+     * @param array $params
+     * @return mixed
+     */
+    public function put(string $endpoint, array $params = []): mixed
+    {
+        throw new Exception('PUT method is not implemented yet.');
+    }
+
+    /**
+     * PATCH method.
+     *
+     * @param string $endpoint
+     * @param array $params
+     * @return mixed
+     */
+    public function patch(string $endpoint, array $params = []): mixed
+    {
+        throw new Exception('PATCH method is not implemented yet.');
+    }
+
+    /**
+     * DELETE method.
      *
      * @param string $endpoint
      * @param array $params
@@ -128,11 +156,11 @@ class MastodonAPI
      */
     public function delete(string $endpoint, array $params = []): mixed
     {
-        throw new Exception('Delete operation is not implemented yet.');
+        throw new Exception('DELETE method is not implemented yet.');
     }
 
     /**
-     * Stream operation.
+     * Stream "method".
      *
      * @param string $endpoint
      * @param array $params
@@ -141,6 +169,9 @@ class MastodonAPI
      */
     public function stream(string $endpoint, array $params = []): mixed
     {
+        // @todo stream is not a regular http method
+        //   so it should be handled differently
+        // https://docs.joinmastodon.org/methods/streaming/
         throw new Exception('Stream operation is not implemented yet.');
     }
 
