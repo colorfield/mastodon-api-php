@@ -152,7 +152,7 @@ class ConfigurationVO
     {
         return [
             'grant_type'    => 'authorization_code',
-            'redirect_uri'  => $this->getRedirectUris(),
+            'redirect_uris' => $this->getRedirectUris(),
             'client_id'     => $this->getClientId(),
             'client_secret' => $this->getClientSecret(),
             'code'          => $this->getAuthorizationCode(),
