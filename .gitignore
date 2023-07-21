@@ -2,3 +2,6 @@
 vendor/
 composer.lock
 test_credentials.php
+.phpunit.result.cache
+.env.local
+.env
