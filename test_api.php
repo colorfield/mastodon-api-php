@@ -3,8 +3,10 @@
 require __DIR__ . '/vendor/autoload.php';
 
 // Make a copy of credentials.example.php
-// and define the the values obtained with
+// and define the values obtained with
 // testOAuth.php + your Mastodon email and password.
+
+// @todo replace this with environment variables.
 require_once 'test_credentials.php';
 
 $name = 'MyMastodonApp';

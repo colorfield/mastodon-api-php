@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Assert;
 use Colorfield\Mastodon\MastodonAPI;
 use Colorfield\Mastodon\MastodonOAuth;
+use Colorfield\Mastodon\Scope;
 
 /**
  * Class MastodonAPITest
@@ -33,12 +34,13 @@ final class MastodonAPITest extends TestCase
         $this->oAuth = new MastodonOAuth($name, $instance);
     }
 
-    // @todo test oAuth
+    // @todo test OAuth
     // @todo test Mastodon API
 
-    public function testAuthorizationUrl()
+    public function testDefaultAuthorizationUrl()
     {
         $authorizationUrl = $this->oAuth->getAuthorizationUrl();
-        Assert::assertNotEmpty($authorizationUrl);
+        Assert::assertTrue(str_starts_with($authorizationUrl, 'https://mastodon.social/oauth/authorize/?response_type=code&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob&scope=read+write&client_id='));
     }
+
 }
