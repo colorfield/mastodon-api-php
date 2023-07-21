@@ -14,7 +14,7 @@ Install it via Composer.
 
 This is a plain API wrapper, so the intention is to support further changes in the API by letting the developer pass the desired endpoint.
 
-1. Get the [REST Mastodon documentation](https://docs.joinmastodon.org/client/intro/).
+1. Get the Mastodon documentation: [Getting started with the API](https://docs.joinmastodon.org/client/intro/) and [Guidelines and best practices](https://docs.joinmastodon.org/api/guidelines/)
 2. Get an instance from the [instance list](https://instances.social).
 
 ## Authenticate with oAuth
