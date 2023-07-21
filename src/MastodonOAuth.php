@@ -98,11 +98,11 @@ class MastodonOAuth
         }
         return "https://{$this->config->getMastodonInstance()}/oauth/authorize/?".http_build_query(
             [
-            "response_type"    => "code",
-            // @todo review usage of singular / plural in redirect_uri
-            "redirect_uri"     => $this->config->getRedirectUris(),
-            "scope"            => $this->config->getScopes(),
-            "client_id"        => $this->config->getClientId(),
+                "response_type"    => "code",
+                // @todo review usage of singular / plural in redirect_uri
+                "redirect_uri"     => $this->config->getRedirectUris(),
+                "scope"            => $this->config->getScopes(),
+                "client_id"        => $this->config->getClientId(),
             ]
         );
     }

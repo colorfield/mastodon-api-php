@@ -57,27 +57,6 @@ class ConfigurationVO
     const DEFAULT_WEBSITE = 'https://colorfield.dev';
 
     /**
-     * Read scope.
-     *
-     * @var string
-     */
-    const SCOPE_READ = 'read';
-
-    /**
-     * Write scope.
-     *
-     * @var string
-     */
-    const SCOPE_WRITE = 'write';
-
-    /**
-     * Follow scope.
-     *
-     * @var string
-     */
-    const SCOPE_FOLLOW = 'follow';
-
-    /**
      * Base URL.
      *
      * Example: https://mastodon.social
@@ -167,7 +146,8 @@ class ConfigurationVO
         $this->setClientName($client_name);
         $this->setMastodonInstance($mastodon_instance);
         $this->setRedirectUris(self::DEFAULT_REDIRECT_URIS);
-        $this->setScopes(['read', 'write']);
+        $this->setScopes([Scope::read->name, Scope::write->name]);
+        // @todo do no set a default website on construct.
         $this->setWebsite(self::DEFAULT_WEBSITE);
         $this->setBaseUrl();
     }
@@ -298,7 +278,7 @@ class ConfigurationVO
     }
 
     /**
-     * Sets the base url, enforces https.
+     * Sets the base url.
      */
     private function setBaseUrl(): void
     {
