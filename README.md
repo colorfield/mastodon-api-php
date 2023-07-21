@@ -17,7 +17,11 @@ This is a plain API wrapper, so the intention is to support further changes in t
 1. Get the Mastodon documentation: [Getting started with the API](https://docs.joinmastodon.org/client/intro/) and [Guidelines and best practices](https://docs.joinmastodon.org/api/guidelines/)
 2. Get an instance from the [instance list](https://instances.social).
 
-## Authenticate with oAuth
+## Authenticate with OAuth
+
+A lightweight client is also available by accessing [test_oauth](./test_oauth.php), 
+via a local php server, to get the client id, secret and bearer.
+See the [Development](./#development) section below.
 
 ### Register your application
 
@@ -39,7 +43,7 @@ or alternatively use enum
 
 ```$oAuth->config->setScopes([Scope::read->name, Scope::write->name, Scope::write->name, Scope::write->name]);```
 
-Note that this must be done while obtaining the token so you cannot override this after.
+Note that this must be done while obtaining the token, so you cannot override this after.
 [More about scopes](https://docs.joinmastodon.org/api/oauth-scopes/).
 
 ### Get the authorization code
