@@ -66,24 +66,6 @@ class ConfigurationVO
     private string $baseUrl;
 
     /**
-     * Mastodon instance domain.
-     *
-     * Example: mastodon.social
-     *
-     * @var string
-     */
-    private string $mastodonInstance;
-
-    /**
-     * Client name.
-     *
-     * Example: MyMastodonApp.
-     *
-     * @var string
-     */
-    private string $clientName;
-
-    /**
      * Client ID obtained during the auth phase.
      *
      * @var string
@@ -105,33 +87,11 @@ class ConfigurationVO
     private string $bearer;
 
     /**
-     * Redirect URI.
-     *
-     * @fixme redirectUris is singular
-     * @var   string
-     */
-    private string $redirectUris;
-
-    /**
-     * Website, with the protocol.
-     *
-     * @var string
-     */
-    private string $website;
-
-    /**
      * Authorization code obtained during the auth phase.
      *
      * @var string
      */
     private string $authorizationCode;
-
-    /**
-     * Scopes. Possible values: read, write, follow.
-     *
-     * @var array
-     */
-    private array $scopes;
 
     /**
      * ConfigurationVO constructor.
@@ -141,14 +101,18 @@ class ConfigurationVO
      * @param string $client_name
      * @param string $mastodon_instance
      */
-    public function __construct(string $client_name = self::DEFAULT_NAME, string $mastodon_instance = self::DEFAULT_INSTANCE)
-    {
-        $this->setClientName($client_name);
-        $this->setMastodonInstance($mastodon_instance);
-        $this->setRedirectUris(self::DEFAULT_REDIRECT_URIS);
-        $this->setScopes([Scope::read->name, Scope::write->name]);
-        // @todo do no set a default website on construct.
-        $this->setWebsite(self::DEFAULT_WEBSITE);
+    public function __construct(
+        public string $clientName = self::DEFAULT_NAME,
+        public string $mastodonInstance = self::DEFAULT_INSTANCE,
+        public string $redirectUris = self::DEFAULT_REDIRECT_URIS,
+        public string $apiVersion = self::API_VERSION,
+        public string $website = self::DEFAULT_WEBSITE,
+        public array $scopes = [],
+    ) {
+        // Move as promoted property when removing PHP 8.1 support.
+        if (empty($this->scopes)) {
+            $this->setScopes([Scope::read->name, Scope::write->name]);
+        }
         $this->setBaseUrl();
     }
 
