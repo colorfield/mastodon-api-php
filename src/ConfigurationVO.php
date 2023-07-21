@@ -4,6 +4,14 @@ namespace Colorfield\Mastodon;
 
 use InvalidArgumentException;
 
+enum Scope
+{
+    case read;
+    case write;
+    case follow;
+    case push;
+}
+
 /**
  * Class Configuration Value Object.
  *
@@ -121,7 +129,7 @@ class ConfigurationVO
      * Redirect URI.
      *
      * @fixme redirectUris is singular
-     * @var string
+     * @var   string
      */
     private string $redirectUris;
 
@@ -256,7 +264,7 @@ class ConfigurationVO
     }
 
     /**
-     * @fixme setting an array and getting a string is counterintuitive
+     * @fixme  setting an array and getting a string is counterintuitive
      * @return string
      */
     public function getScopes(): string
@@ -269,16 +277,14 @@ class ConfigurationVO
      */
     public function setScopes(array $scopes)
     {
-        // @todo
         // Mastodon defaults itself to read if no scope configured.
         if (!empty($scopes)) {
-            // @todo use enum for scopes
-            $scopeValues = [self::SCOPE_READ, self::SCOPE_WRITE, self::SCOPE_FOLLOW];
-            // Check scope values
-            if (count(array_intersect($scopes, $scopeValues)) == count($scopes)) {
+            $scopeValues = array_column(Scope::cases(), 'name');
+            // Check scope values.
+            if (count(array_intersect($scopes, $scopeValues)) === count($scopes)) {
                 $this->scopes = $scopes;
             } else {
-                throw new InvalidArgumentException('Wrong scopes defined, expected one ore many from read write follow. See README.');
+                throw new InvalidArgumentException('Wrong scopes defined, expected one or many from read write follow push. See README.');
             }
         }
     }
@@ -292,7 +298,7 @@ class ConfigurationVO
     }
 
     /**
-     * Set the base url, enforces https.
+     * Sets the base url, enforces https.
      */
     private function setBaseUrl(): void
     {

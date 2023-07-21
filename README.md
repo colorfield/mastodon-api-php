@@ -55,13 +55,13 @@ $instance = 'mastodon.social';
 $oAuth = new Colorfield\Mastodon\MastodonOAuth($name, $instance);
 ```
 
-The default configuration is limited the the 'read' and 'write' scopes.
+The default configuration is limited to the 'read' and 'write' scopes.
 You can modify it via
 
-```$oAuth->config->setScopes(['read', 'write', 'follow']);```
+```$oAuth->config->setScopes(['read', 'write', 'follow', 'push']);```
 
 Note that this must be done while obtaining the token so you cannot override this after.
-[More about scopes](https://github.com/tootsuite/documentation/blob/master/Using-the-API/OAuth-details.md).
+[More about scopes](https://docs.joinmastodon.org/api/oauth-scopes/).
 
 ### Get the authorization code
 
