@@ -15,32 +15,7 @@ Install it via Composer.
 This is a plain API wrapper, so the intention is to support further changes in the API by letting the developer pass the desired endpoint.
 
 1. Get the [REST Mastodon documentation](https://docs.joinmastodon.org/client/intro/).
-2. Get an instance from the [instance list](https://instances.mastodon.xyz/list).
-
-## Quick test 
-
-### OAuth
-
-An interactive demo is available.
-
-1. Clone the [GitHub repository](https://github.com/colorfield/mastodon-api-php).
-2. cd in the cloned directory
-2. Run `composer install`
-3. Run `php -S localhost:8000`
-4. In your browser, go to http://localhost:8000/test_oauth.php
-5. You will get the client_id and client_secret, click on the authorization URL link, then confirm the authorization under Mastodon and copy the authorization code.
-6. Get the bearer: click on the "Get access token" button.
-7. Authenticate with your Mastodon username (email) and password: click on "Login".
-
-![Authorize your application](documentation/images/mastodon-authorize.png?raw=true "Authorize your application")
-
-![Authorize your application](documentation/images/mastodon-authorization-code.png?raw=true "Authorization code")
-
-### Mastodon API
-
-1. Make your own copy of _test_credentials.example.php_ as _test_credentials.php_
-2. Define in _test_credentials.php_ the information obtained with oAuth and your Mastodon email and password.
-3. In your browser, go to http://localhost:8000/test_api.php
+2. Get an instance from the [instance list](https://instances.social).
 
 ## Authenticate with oAuth
 
@@ -58,7 +33,11 @@ $oAuth = new Colorfield\Mastodon\MastodonOAuth($name, $instance);
 The default configuration is limited to the 'read' and 'write' scopes.
 You can modify it via
 
-```$oAuth->config->setScopes([Scope::read->name, Scope::write->name, Scope::follow->name, Scope::push->name]);```
+```$oAuth->config->setScopes(['read', 'write', 'follow', 'push']);```
+
+or alternatively use enum
+
+```$oAuth->config->setScopes([Scope::read->name, Scope::write->name, Scope::write->name, Scope::write->name]);```
 
 Note that this must be done while obtaining the token so you cannot override this after.
 [More about scopes](https://docs.joinmastodon.org/api/oauth-scopes/).
@@ -120,3 +99,30 @@ Clear notifications
 ```$clearedNotifications = $mastodonAPI->post('/notifications/clear');```
 
 @todo complete with delete and stream.
+
+## Development
+
+### Manual testing tools
+
+#### OAuth
+
+An interactive demo is available.
+
+1. Clone the [GitHub repository](https://github.com/colorfield/mastodon-api-php).
+2. cd in the cloned directory
+2. Run `composer install`
+3. Run `php -S localhost:8000`
+4. In your browser, go to http://localhost:8000/test_oauth.php
+5. You will get the client_id and client_secret, click on the authorization URL link, then confirm the authorization under Mastodon and copy the authorization code.
+6. Get the bearer: click on the "Get access token" button.
+7. Authenticate with your Mastodon username (email) and password: click on "Login".
+
+![Authorize your application](documentation/images/mastodon-authorize.png?raw=true "Authorize your application")
+
+![Authorize your application](documentation/images/mastodon-authorization-code.png?raw=true "Authorization code")
+
+#### Mastodon API
+
+1. Make your own copy of _test_credentials.example.php_ as _test_credentials.php_
+2. Define in _test_credentials.php_ the information obtained with oAuth and your Mastodon email and password.
+3. In your browser, go to http://localhost:8000/test_api.php

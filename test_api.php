@@ -13,6 +13,7 @@ $oAuth = new Colorfield\Mastodon\MastodonOAuth($name, $instance);
 $oAuth->config->setClientId($client_id);
 $oAuth->config->setClientSecret($client_secret);
 $oAuth->config->setBearer($bearer);
+$oAuth->config->setScopes(['read', 'write']);
 $mastodonAPI = new Colorfield\Mastodon\MastodonAPI($oAuth->config);
 
 $login = $oAuth->authenticateUser($mastodon_email, $mastodon_password);
