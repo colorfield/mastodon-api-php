@@ -117,34 +117,6 @@ class ConfigurationVO
     }
 
     /**
-     * Initializes the Configuration Value Object with oAuth credentials
-     *
-     * To be used by the MastodonAPI class after authentication.
-     * It should contain the client_id, client_secret and bearer.
-     *
-     * @throws InvalidArgumentException
-     * @param  array $config
-     */
-    public function setOAuthCredentials(array $config): void
-    {
-        // @todo change by using ConfigVO
-        // Throw exception for mandatory params
-        if (!isset($config['client_id'])) {
-            throw new InvalidArgumentException('Missing client_id.');
-        }
-
-        // Throw exeception for mandatory params
-        if (!isset($config['client_secret'])) {
-            throw new InvalidArgumentException('Missing client_secret.');
-        }
-
-        // Throw exeception for mandatory params
-        if (!isset($config['bearer'])) {
-            throw new InvalidArgumentException('Missing client_secret.');
-        }
-    }
-
-    /**
      * Checks if the credentials are already defined.
      *
      * @return bool
