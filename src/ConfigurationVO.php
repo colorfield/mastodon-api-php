@@ -4,14 +4,6 @@ namespace Colorfield\Mastodon;
 
 use InvalidArgumentException;
 
-enum Scope
-{
-    case read;
-    case write;
-    case follow;
-    case push;
-}
-
 /**
  * Class Configuration Value Object.
  *
@@ -111,7 +103,7 @@ class ConfigurationVO
     ) {
         // Move as promoted property when removing PHP 8.1 support.
         if (empty($this->scopes)) {
-            $this->setScopes([Scope::read->name, Scope::write->name]);
+            $this->setScopes([OAuthScope::read->name, OAuthScope::write->name]);
         }
         $this->setBaseUrl();
     }
@@ -195,7 +187,7 @@ class ConfigurationVO
     {
         // Mastodon defaults itself to read if no scope configured.
         if (!empty($scopes)) {
-            $scopeValues = array_column(Scope::cases(), 'name');
+            $scopeValues = array_column(OAuthScope::cases(), 'name');
             // Check scope values.
             if (count(array_intersect($scopes, $scopeValues)) === count($scopes)) {
                 $this->scopes = $scopes;

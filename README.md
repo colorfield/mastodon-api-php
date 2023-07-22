@@ -41,7 +41,7 @@ You can modify it via
 
 or alternatively use enum
 
-```$oAuth->config->setScopes([Scope::read->name, Scope::write->name, Scope::write->name, Scope::write->name]);```
+```$oAuth->config->setScopes([OAuthScope::read->name, OAuthScope::write->name, OAuthScope::follow->name, OAuthScope::push->name]);```
 
 Note that this must be done while obtaining the token, so you cannot override this after.
 [More about scopes](https://docs.joinmastodon.org/api/oauth-scopes/).

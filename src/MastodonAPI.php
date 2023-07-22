@@ -2,20 +2,12 @@
 
 namespace Colorfield\Mastodon;
 
-use Exception;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
+use Exception;
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
-
-enum HttpOperations
-{
-    case GET;
-    case POST;
-    case PUT;
-    case PATCH;
-    case DELETE;
-}
 
 /**
  * MastodonAPI
@@ -29,28 +21,17 @@ enum HttpOperations
  */
 class MastodonAPI
 {
-    // @todo use promoted properties
     // @todo improve return type for the api response
-
-    private ConfigurationVO $config;
-
-    private ClientInterface $client;
 
     /**
      * Creates the API object.
      *
      * @param ConfigurationVO $config
      */
-    public function __construct(ConfigurationVO $config)
-    {
-        $this->client = new Client();
-
-        try {
-            $this->config = $config;
-        } catch (InvalidArgumentException $exception) {
-            print($exception->getMessage());
-        }
-    }
+    public function __construct(
+        public ConfigurationVO $config,
+        public ClientInterface $client = new Client()
+    ) { }
 
     /**
      * Sends a request to the specified API endpoint and returns the response.
@@ -64,35 +45,30 @@ class MastodonAPI
      *
      * @return mixed
      *   The response body from the API endpoint, or null if there was an error.
+     * @throws GuzzleException|InvalidArgumentException|Exception
      */
     private function getResponse(string $endpoint, string $method, array $json): mixed
     {
-        $result = null;
         $uri = $this->config->getBaseUrl() . '/api/';
         $uri .= ConfigurationVO::API_VERSION . $endpoint;
 
-        $allowedMethods = array_column(HttpOperations::cases(), 'name');
+        $allowedMethods = array_column(HttpOperation::cases(), 'name');
         if (!in_array($method, $allowedMethods)) {
             throw new InvalidArgumentException('ERROR: only ' . implode(',', $allowedMethods) . 'are allowed');
         }
 
-        try {
-            $response = $this->client->request($method, $uri, [
-                'headers' => [
-                  'Authorization' => 'Bearer ' . $this->config->getBearer(),
-                ],
-                'json' => $json,
-            ]);
-            // @todo $request->getHeader('content-type')
-            if($response instanceof ResponseInterface
-              && $response->getStatusCode() == '200') {
-                $result = json_decode($response->getBody(), true);
-            } else {
-                echo 'ERROR: Status code ' . $response->getStatusCode();
-            }
-            // @todo check thrown exception
-        } catch (Exception $exception) {
-            echo 'ERROR: ' . $exception->getMessage();
+        $response = $this->client->request($method, $uri, [
+            'headers' => [
+              'Authorization' => 'Bearer ' . $this->config->getBearer(),
+            ],
+            'json' => $json,
+        ]);
+
+        if ($response instanceof ResponseInterface
+          && $response->getStatusCode() == '200') {
+            $result = json_decode($response->getBody(), true);
+        } else {
+           throw new Exception('ERROR ' . $response->getStatusCode() . ' : ' . $response->getReasonPhrase());
         }
         return $result;
     }
