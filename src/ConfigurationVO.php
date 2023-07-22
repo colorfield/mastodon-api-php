@@ -16,35 +16,35 @@ class ConfigurationVO
      *
      * @var string
      */
-    public const DEFAULT_INSTANCE = 'mastodon.social';
+    final public const DEFAULT_INSTANCE = 'mastodon.social';
 
     /**
      * Application default name
      *
      * @var string
      */
-    public const DEFAULT_NAME = 'MastodonAPIPHP';
+    final public const DEFAULT_NAME = 'MastodonAPIPHP';
 
     /**
      * Mastodon API version.
      *
      * @var string
      */
-    public const API_VERSION = 'v1';
+    final public const API_VERSION = 'v1';
 
     /**
      * Default URI.
      *
      * @var string
      */
-    public const DEFAULT_REDIRECT_URIS = 'urn:ietf:wg:oauth:2.0:oob';
+    final public const DEFAULT_REDIRECT_URIS = 'urn:ietf:wg:oauth:2.0:oob';
 
     /**
      * Default website.
      *
      * @var string
      */
-    public const DEFAULT_WEBSITE = 'https://colorfield.dev';
+    final public const DEFAULT_WEBSITE = 'https://colorfield.dev';
 
     /**
      * Base URL.
@@ -157,8 +157,6 @@ class ConfigurationVO
     /**
      * Returns the user authentication configuration.
      *
-     * @param string $email
-     * @param string $password
      *
      * @return array
      */
@@ -188,8 +186,6 @@ class ConfigurationVO
 
     /**
      * Sets the OAuth scopes.
-     *
-     * @param array $scopes
      */
     public function setScopes(array $scopes): void
     {
@@ -260,8 +256,6 @@ class ConfigurationVO
 
     /**
      * Sets the client application name.
-     *
-     * @param string $clientName
      */
     public function setClientName(string $clientName): void
     {
@@ -280,8 +274,6 @@ class ConfigurationVO
 
     /**
      * Sets the client application website.
-     *
-     * @param string $website
      */
     public function setWebsite(string $website): void
     {
@@ -303,8 +295,6 @@ class ConfigurationVO
 
     /**
      * Sets the OAuth client id.
-     *
-     * @param string $clientId
      */
     public function setClientId(string $clientId): void
     {
@@ -323,8 +313,6 @@ class ConfigurationVO
 
     /**
      * Sets the OAuth client secret.
-     *
-     * @param string $clientSecret
      */
     public function setClientSecret(string $clientSecret): void
     {
@@ -343,8 +331,6 @@ class ConfigurationVO
 
     /**
      * Sets the OAuth authorization code.
-     *
-     * @param string $code
      */
     public function setAuthorizationCode(string $code): void
     {
@@ -363,8 +349,6 @@ class ConfigurationVO
 
     /**
      * Sets the OAuth bearer token.
-     *
-     * @param string $bearer
      */
     public function setBearer(string $bearer): void
     {
@@ -383,8 +367,6 @@ class ConfigurationVO
 
     /**
      * Sets the OAuth redirect uris.
-     *
-     * @param string $redirectUris
      */
     public function setRedirectUris(string $redirectUris): void
     {

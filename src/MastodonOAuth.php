@@ -16,7 +16,7 @@ class MastodonOAuth
 {
     public ConfigurationVO $config;
 
-    private ClientInterface $client;
+    private readonly ClientInterface $client;
 
     /**
      * Creates the OAuth object from the configuration.
@@ -32,8 +32,6 @@ class MastodonOAuth
     /**
      * Get response from the endpoint.
      *
-     * @param string $endpoint
-     * @param array $json
      *
      * @return mixed
      * @throws GuzzleException|Exception
@@ -50,7 +48,7 @@ class MastodonOAuth
         );
         // @todo $request->getHeader('content-type')
         if ($response->getStatusCode() == '200') {
-            $result = json_decode($response->getBody(), true);
+            $result = json_decode((string) $response->getBody(), true, 512, JSON_THROW_ON_ERROR);
         } else {
             throw new Exception('ERROR ' . $response->getStatusCode() . ' : ' . $response->getReasonPhrase());
         }
@@ -129,8 +127,6 @@ class MastodonOAuth
     /**
      * Authenticates a user.
      *
-     * @param string $email
-     * @param string $password
      *
      * @return array
      * @throws GuzzleException|Exception

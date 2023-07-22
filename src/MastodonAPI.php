@@ -71,7 +71,7 @@ class MastodonAPI
         $response = $this->client->request($method, $uri, $options);
 
         if ($response->getStatusCode() == '200') {
-            $result = json_decode($response->getBody(), true);
+            $result = json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);
         } else {
             throw new Exception('ERROR ' . $response->getStatusCode() . ': ' . $response->getReasonPhrase());
         }
@@ -114,8 +114,6 @@ class MastodonAPI
     /**
      * Post method.
      *
-     * @param string $endpoint
-     * @param array $params
      * @return mixed
      * @throws GuzzleException|Exception
      */
@@ -127,12 +125,10 @@ class MastodonAPI
     /**
      * PUT method.
      *
-     * @param string $endpoint
-     * @param array $params
      * @return mixed
      * @throws Exception
      */
-    public function put(string $endpoint, array $params = []): mixed
+    public function put(string $endpoint, array $params = []): never
     {
         throw new Exception('PUT method is not implemented yet.');
     }
@@ -140,13 +136,11 @@ class MastodonAPI
     /**
      * PATCH method.
      *
-     * @param string $endpoint
-     * @param array $params
      *
      * @return mixed
      * @throws Exception
      */
-    public function patch(string $endpoint, array $params = []): mixed
+    public function patch(string $endpoint, array $params = []): never
     {
         throw new Exception('PATCH method is not implemented yet.');
     }
@@ -154,13 +148,11 @@ class MastodonAPI
     /**
      * DELETE method.
      *
-     * @param string $endpoint
-     * @param array $params
      *
      * @return mixed
      * @throws Exception
      */
-    public function delete(string $endpoint, array $params = []): mixed
+    public function delete(string $endpoint, array $params = []): never
     {
         throw new Exception('DELETE method is not implemented yet.');
     }
@@ -168,13 +160,11 @@ class MastodonAPI
     /**
      * Stream "method".
      *
-     * @param string $endpoint
-     * @param array $params
      *
      * @return mixed
      * @throws Exception
      */
-    public function stream(string $endpoint, array $params = []): mixed
+    public function stream(string $endpoint, array $params = []): never
     {
         // @todo stream is not a regular http method
         //   so it should be handled differently
