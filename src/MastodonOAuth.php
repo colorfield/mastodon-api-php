@@ -24,7 +24,6 @@ class MastodonOAuth
         $client_name = ConfigurationVO::DEFAULT_NAME,
         $mastodon_instance = ConfigurationVO::DEFAULT_INSTANCE
     ) {
-        // @todo use promoted properties
         $this->config = new ConfigurationVO($client_name, $mastodon_instance);
         $this->client = new Client();
     }
@@ -39,25 +38,19 @@ class MastodonOAuth
      */
     private function getResponse(string $endpoint, array $json): mixed
     {
-        $result = null;
         // endpoint
         $uri = $this->config->getBaseUrl() . $endpoint;
-        try {
-            $response = $this->client->post(
-                $uri,
-                [
-                    'json' => $json,
-                ]
-            );
-            // @todo $request->getHeader('content-type')
-            if ($response->getStatusCode() == '200') {
-                $result = json_decode($response->getBody(), true);
-            } else {
-                echo 'ERROR: Status code ' . $response->getStatusCode();
-            }
-            // @todo check thrown exception
-        } catch (Exception $exception) {
-            echo 'ERROR: ' . $exception->getMessage();
+        $response = $this->client->post(
+            $uri,
+            [
+                'json' => $json,
+            ]
+        );
+        // @todo $request->getHeader('content-type')
+        if ($response->getStatusCode() == '200') {
+            $result = json_decode($response->getBody(), true);
+        } else {
+            throw new Exception('ERROR ' . $response->getStatusCode() . ' : ' . $response->getReasonPhrase());
         }
         return $result;
     }
@@ -111,11 +104,12 @@ class MastodonOAuth
 
     /**
      * Gets the access token.
+     *
      * As a side effect, stores it into the Configuration as bearer.
      *
-     * @todo fix name and side effect, we expect a return value here
+     * @return string
      */
-    public function getAccessToken(): void
+    public function getAccessToken(): string
     {
         $options = $this->config->getAccessTokenConfiguration();
         $token = $this->getResponse('/oauth/token', $options);
@@ -124,6 +118,7 @@ class MastodonOAuth
         } else {
             throw new Exception('ERROR: no access token in API response');
         }
+        return $token['access_token'];
     }
 
     /**
