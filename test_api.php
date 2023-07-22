@@ -1,24 +1,28 @@
 <?php
 
+/**
+ * Test Mastodon API.
+ *
+ * Make a copy of .env.example to .env
+ * and define the values obtained with
+ * test_oauth.php + your Mastodon email and password.
+ */
+
 require __DIR__ . '/vendor/autoload.php';
 
-// Make a copy of credentials.example.php
-// and define the values obtained with
-// testOAuth.php + your Mastodon email and password.
-
-// @todo replace this with environment variables.
-require_once 'test_credentials.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 $name = 'MyMastodonApp';
 $instance = 'mastodon.social';
 $oAuth = new Colorfield\Mastodon\MastodonOAuth($name, $instance);
-$oAuth->config->setClientId($client_id);
-$oAuth->config->setClientSecret($client_secret);
-$oAuth->config->setBearer($bearer);
+$oAuth->config->setClientId($_ENV['CLIENT_ID']);
+$oAuth->config->setClientSecret($_ENV['CLIENT_SECRET']);
+$oAuth->config->setBearer($_ENV['BEARER']);
 $oAuth->config->setScopes(['read', 'write']);
 $mastodonAPI = new Colorfield\Mastodon\MastodonAPI($oAuth->config);
 
-$login = $oAuth->authenticateUser($mastodon_email, $mastodon_password);
+$login = $oAuth->authenticateUser($_ENV['MASTODON_EMAIL'], $_ENV['MASTODON_PASSWORD']);
 
 ?>
 

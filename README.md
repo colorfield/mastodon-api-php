@@ -127,6 +127,6 @@ An interactive demo is available.
 
 #### Mastodon API
 
-1. Make your own copy of _test_credentials.example.php_ as _test_credentials.php_
-2. Define in _test_credentials.php_ the information obtained with oAuth and your Mastodon email and password.
+1. Make a copy of `.env.local` as `.env`
+2. Define the information obtained with OAuth and your Mastodon email and password.
 3. In your browser, go to http://localhost:8000/test_api.php
