@@ -31,7 +31,8 @@ class MastodonAPI
     public function __construct(
         public ConfigurationVO $config,
         public ClientInterface $client = new Client()
-    ) { }
+    ) {
+    }
 
     /**
      * Sends a request to the specified API endpoint and returns the response.
@@ -68,7 +69,7 @@ class MastodonAPI
           && $response->getStatusCode() == '200') {
             $result = json_decode($response->getBody(), true);
         } else {
-           throw new Exception('ERROR ' . $response->getStatusCode() . ' : ' . $response->getReasonPhrase());
+            throw new Exception('ERROR ' . $response->getStatusCode() . ' : ' . $response->getReasonPhrase());
         }
         return $result;
     }

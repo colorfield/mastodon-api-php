@@ -5,6 +5,7 @@ namespace Colorfield\Mastodon;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * Class MastodonOAuth.
@@ -35,6 +36,7 @@ class MastodonOAuth
      * @param array $json
      *
      * @return mixed
+     * @throws GuzzleException|Exception
      */
     private function getResponse(string $endpoint, array $json): mixed
     {
@@ -61,6 +63,7 @@ class MastodonOAuth
      * Appends client_id and client_secret to the configuration value object.
      *
      * @return void
+     * @throws GuzzleException|Exception
      */
     public function registerApplication(): void
     {
@@ -84,6 +87,7 @@ class MastodonOAuth
      * after manual approval.
      *
      * @return string
+     * @throws GuzzleException|Exception
      */
     public function getAuthorizationUrl(): string
     {
@@ -108,6 +112,7 @@ class MastodonOAuth
      * As a side effect, stores it into the Configuration as bearer.
      *
      * @return string
+     * @throws GuzzleException|Exception
      */
     public function getAccessToken(): string
     {
@@ -128,6 +133,7 @@ class MastodonOAuth
      * @param string $password
      *
      * @return array
+     * @throws GuzzleException|Exception
      */
     public function authenticateUser(string $email, string $password): array
     {
