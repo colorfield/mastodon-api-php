@@ -8,11 +8,11 @@ use Colorfield\Mastodon\MastodonOAuth;
 use Colorfield\Mastodon\MastodonAPI;
 
 /**
- * Class MastodonAPITest
+ * Class MastodonApiPrivate
  *
- * Contains the integration tests.
+ * Contains the integration tests for API calls that requires authentication.
  */
-final class MastodonAPITest extends TestCase
+final class MastodonApiPrivate extends TestCase
 {
 
     /**
