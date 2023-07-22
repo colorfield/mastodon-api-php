@@ -58,4 +58,12 @@ final class MastodonAPITest extends TestCase
         Assert::assertTrue($hasUserName && $hasUserId);
     }
 
+    public function testApiFollowers()
+    {
+        $credentials = $this->api->get('/accounts/verify_credentials');
+        $user = new Colorfield\Mastodon\UserVO($credentials);
+        $followers = $this->api->get('/accounts/' . $user->id . '/followers');
+        Assert::assertTrue(is_array($followers));
+    }
+
 }
