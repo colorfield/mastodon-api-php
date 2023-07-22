@@ -1,6 +1,6 @@
 # Mastodon API PHP
 
-PHP wrapper for the Mastodon API that includes oAuth helpers, Guzzle based.
+PHP wrapper for the Mastodon API, that includes OAuth helpers. Guzzle based.
 
 [![Build Status](https://travis-ci.org/colorfield/mastodon-api-php.png)](https://travis-ci.org/colorfield/mastodon-api-php)
 
@@ -8,40 +8,56 @@ PHP wrapper for the Mastodon API that includes oAuth helpers, Guzzle based.
 
 Install it via Composer.
 
-```composer require colorfield/mastodon-api```
+```bash
+composer require colorfield/mastodon-api
+```
+
+Latest version requires PHP 8.1. For previous versions of PHP, use `v0.1.0`.
 
 ## Mastodon API and instances
 
-This is a plain API wrapper, so the intention is to support further changes in the API by letting the developer pass the desired endpoint.
+This is a plain API wrapper, so the intention is to support further changes in the API by letting the developer
+pass the desired endpoint and parameters.
 
 1. Get the Mastodon documentation: [Getting started with the API](https://docs.joinmastodon.org/client/intro/) and [Guidelines and best practices](https://docs.joinmastodon.org/api/guidelines/)
 2. Get an instance from the [instance list](https://instances.social).
 
 ## Authenticate with OAuth
 
-A lightweight client is also available by accessing [test_oauth](./test_oauth.php), 
-via a local php server, to get the client id, secret and bearer.
-See the [Development](./#development) section below.
+If you don't need any authentication, skip to [Get public data](#get-public-data)
+
+To get OAuth credentials, a lightweight client is also available with [test_oauth](./test_oauth.php), 
+via a local PHP server. It provides the client id, client secret and bearer.
+See the [Development](#development) section below.
 
 ### Register your application
 
 Give it a name and an optional instance. 
-The instance defaults to mastodon.social.
+The instance defaults to `mastodon.social`.
 
-```
+```php
 $name = 'MyMastodonApp';
 $instance = 'mastodon.social';
 $oAuth = new Colorfield\Mastodon\MastodonOAuth($name, $instance);
 ```
 
-The default configuration is limited to the 'read' and 'write' scopes.
+The default configuration is limited to the `read` and `write` scopes.
 You can modify it via
 
-```$oAuth->config->setScopes(['read', 'write', 'follow', 'push']);```
+```php
+$oAuth->config->setScopes(['read', 'write', 'follow', 'push']);
+```
 
 or alternatively use enum
 
-```$oAuth->config->setScopes([OAuthScope::read->name, OAuthScope::write->name, OAuthScope::follow->name, OAuthScope::push->name]);```
+```php
+$oAuth->config->setScopes([
+    OAuthScope::read->name, 
+    OAuthScope::write->name, 
+    OAuthScope::follow->name,
+    OAuthScope::push->name]
+);
+```
 
 Note that this must be done while obtaining the token, so you cannot override this after.
 [More about scopes](https://docs.joinmastodon.org/api/oauth-scopes/).
@@ -56,17 +72,16 @@ Note that this must be done while obtaining the token, so you cannot override th
 1. Store the authorization code in the configuration value object.
 `$oAuth->config->setAuthorizationCode(xxx);`
 
-2. Then get the access token. As a side effect, stores it on the configuration value object.
+2. Then get the access token. As a side effect, it is store in the Configuration value object.
 `$oAuth->getAccessToken();`
 
 ## Use the Mastodon API
 
 ### Instantiate the Mastodon API with the configuration
 
-The oAuth credentials should be stored from the configuration value object for later retrieval.
-Then you can use it in this way.
+The OAuth credentials should be stored in the Configuration value object for later retrieval.
 
-```
+```php
 $name = 'MyMastodonApp';
 $instance = 'mastodon.social';
 $oAuth = new Colorfield\Mastodon\MastodonOAuth($name, $instance);
@@ -79,30 +94,56 @@ $mastodonAPI = new Colorfield\Mastodon\MastodonAPI($oAuth->config);
 ### User login
 
 Login with Mastodon email and password.
-`$oAuth->authenticateUser($email, $password);`
+
+```php
+$oAuth->authenticateUser($email, $password);
+```
 
 ### Use the API wrapper
 
 Here are a few examples of the API wrapper usage.
-Read the [full documentation](https://github.com/tootsuite/documentation/blob/master/Using-the-API/API.md).
+
+#### Get public data
+
+[Some requests](https://docs.joinmastodon.org/client/public/), like public timelines, do not require any authentication
+
+```php
+$timeline = $this->api->getPublicData('/timelines/public');
+```
+
+which is equivalent to
+
+```php
+$timeline = $this->api->get('/timelines/public', [], false);
+```
+
+where the 3rd parameter indicates that we don't require any authentication.
 
 #### Get 
 
+Assumes by default that authentication is provided.
+
 Get credentials
 
-```$credentials = $mastodonAPI->get('/accounts/verify_credentials');```
+```php
+$credentials = $mastodonAPI->get('/accounts/verify_credentials');
+```
 
 Get followers
 
-```$followers = $mastodonAPI->get('/accounts/USER_ID/followers');```
+```php
+$followers = $mastodonAPI->get('/accounts/USER_ID/followers');
+```
 
 #### Post
 
 Clear notifications
 
-```$clearedNotifications = $mastodonAPI->post('/notifications/clear');```
+```php
+$clearedNotifications = $mastodonAPI->post('/notifications/clear');
+```
 
-@todo complete with delete and stream.
+@todo complete with delete, put, patch and stream.
 
 ## Development
 

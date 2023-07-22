@@ -32,7 +32,10 @@ final class MastodonApiPublic extends TestCase
     public function testApiPublicTimeline()
     {
         $this->api = new MastodonAPI($this->oAuth->config);
-        $timeline = $this->api->get('/timelines/public');
+        $timeline = $this->api->get('/timelines/public', [], false);
+        Assert::assertTrue(is_array($timeline));
+
+        $timeline = $this->api->getPublicData('/timelines/public');
         Assert::assertTrue(is_array($timeline));
     }
 

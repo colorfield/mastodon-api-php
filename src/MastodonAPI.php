@@ -7,7 +7,6 @@ use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
 use Exception;
 use GuzzleHttp\Client;
-use Psr\Http\Message\ResponseInterface;
 
 /**
  * MastodonAPI
@@ -16,7 +15,7 @@ use Psr\Http\Message\ResponseInterface;
  * @package  Mastodon-API-PHP
  * @author   Christophe Jossart <christophe@colorfield.eu>
  * @license  Apache License 2.0
- * @version  Release: <0.1.2>
+ * @version  Release: <0.1.3>
  * @link     https://github.com/colorfield/mastodon-api-php
  */
 class MastodonAPI
@@ -44,12 +43,14 @@ class MastodonAPI
      *   The HTTP method to use for the request ('get' or 'post').
      * @param array $json
      *   An array of data to send with the request in JSON format.
+     * @param bool $authenticate
+     *   Use OAuth. Defaults to true.
      *
      * @return mixed
      *   The response body from the API endpoint, or null if there was an error.
      * @throws GuzzleException|InvalidArgumentException|Exception
      */
-    private function getResponse(string $endpoint, string $method, array $json): mixed
+    private function getResponse(string $endpoint, string $method, array $json, bool $authenticate = true): mixed
     {
         $uri = $this->config->getBaseUrl() . '/api/';
         $uri .= ConfigurationVO::API_VERSION . $endpoint;
@@ -59,18 +60,22 @@ class MastodonAPI
             throw new InvalidArgumentException('ERROR: only ' . implode(',', $allowedMethods) . 'are allowed');
         }
 
-        $response = $this->client->request($method, $uri, [
-            'headers' => [
-              'Authorization' => 'Bearer ' . $this->config->getBearer(),
-            ],
-            'json' => $json,
-        ]);
+        $options = [];
+        if ($authenticate) {
+            $options['headers'] = [
+                'Authorization' => 'Bearer ' . $this->config->getBearer(),
+            ];
+        }
+        $options['json'] = $json;
+
+        $response = $this->client->request($method, $uri, $options);
 
         if ($response->getStatusCode() == '200') {
             $result = json_decode($response->getBody(), true);
         } else {
-            throw new Exception('ERROR ' . $response->getStatusCode() . ' : ' . $response->getReasonPhrase());
+            throw new Exception('ERROR ' . $response->getStatusCode() . ': ' . $response->getReasonPhrase());
         }
+
         return $result;
     }
 
@@ -79,13 +84,31 @@ class MastodonAPI
      *
      * @param string $endpoint
      * @param array $params
+     * @param bool $authenticate
+     *    Use OAuth. Defaults to true, mostly for BC.
      *
      * @return mixed
      * @throws GuzzleException|Exception
      */
-    public function get(string $endpoint, array $params = []): mixed
+    public function get(string $endpoint, array $params = [], bool $authenticate = true): mixed
     {
-        return $this->getResponse($endpoint, 'GET', $params);
+        return $this->getResponse($endpoint, 'GET', $params, $authenticate);
+    }
+
+    /**
+     * Get method, without authentication.
+     *
+     * Simplify public requests
+     *
+     * @param string $endpoint
+     * @param array $params
+     *
+     * @return mixed
+     * @throws GuzzleException|Exception
+     */
+    public function getPublicData(string $endpoint, array $params = []): mixed
+    {
+        return $this->getResponse($endpoint, 'GET', $params, false);
     }
 
     /**
