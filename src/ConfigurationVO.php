@@ -56,28 +56,28 @@ class ConfigurationVO
     private string $baseUrl;
 
     /**
-     * Client ID obtained during the auth phase.
+     * Client ID obtained during the authentication phase.
      *
      * @var string
      */
     private string $clientId;
 
     /**
-     * Client secret obtained during the auth phase.
+     * Client secret obtained during the authentication phase.
      *
      * @var string
      */
     private string $clientSecret;
 
     /**
-     * Client bearer obtained during the auth phase.
+     * Client bearer obtained during the authentication phase.
      *
      * @var string
      */
     private string $bearer;
 
     /**
-     * Authorization code obtained during the auth phase.
+     * Authorization code obtained during the authentication phase.
      *
      * @var string
      */
@@ -92,7 +92,7 @@ class ConfigurationVO
      * @param string $apiVersion The version of the Mastodon API (optional, default: self::API_VERSION).
      * @param string $website The website URL of the client (optional, default: self::DEFAULT_WEBSITE).
      * @param array $scopes The required scopes for the client (optional, default: empty array).
-     *     Will be set to [OAuthScope::read->name, OAuthScope::write->name] if empty.
+     *     Will be set to ['read', 'write'] if empty.
      *
      * @return void
      */
@@ -138,7 +138,7 @@ class ConfigurationVO
     }
 
     /**
-     * Returns the oAuth token configuration to be used to
+     * Returns the OAuth token configuration to be used to
      * get the bearer.
      *
      * @return array
@@ -175,7 +175,10 @@ class ConfigurationVO
     }
 
     /**
+     * Returns the OAuth scopes.
+     *
      * @fixme  setting an array and getting a string is counterintuitive
+     *
      * @return string
      */
     public function getScopes(): string
@@ -184,9 +187,11 @@ class ConfigurationVO
     }
 
     /**
+     * Sets the OAuth scopes.
+     *
      * @param array $scopes
      */
-    public function setScopes(array $scopes)
+    public function setScopes(array $scopes): void
     {
         // Mastodon defaults itself to read if no scope configured.
         if (!empty($scopes)) {
@@ -201,6 +206,10 @@ class ConfigurationVO
     }
 
     /**
+     * Returns the Mastodon instance base url.
+     *
+     * With the protocol. Example: https://mastodon.social
+     *
      * @return string
      */
     public function getBaseUrl(): string
@@ -209,7 +218,7 @@ class ConfigurationVO
     }
 
     /**
-     * Sets the base url.
+     * Sets the Mastodon instance base url.
      */
     private function setBaseUrl(): void
     {
@@ -218,6 +227,8 @@ class ConfigurationVO
     }
 
     /**
+     * Returns the Mastodon instance domain.
+     *
      * @return string
      */
     public function getMastodonInstance(): string
@@ -226,6 +237,10 @@ class ConfigurationVO
     }
 
     /**
+     * Sets the Mastodon instance domain.
+     *
+     * Without the protocol. Example: mastodon.social
+     *
      * @param string $instance
      */
     public function setMastodonInstance(string $instance): void
@@ -234,6 +249,8 @@ class ConfigurationVO
     }
 
     /**
+     * Returns the client application name.
+     *
      * @return string
      */
     public function getClientName(): string
@@ -242,6 +259,8 @@ class ConfigurationVO
     }
 
     /**
+     * Sets the client application name.
+     *
      * @param string $clientName
      */
     public function setClientName(string $clientName): void
@@ -250,70 +269,8 @@ class ConfigurationVO
     }
 
     /**
-     * @return string
-     */
-    public function getClientId(): string
-    {
-        return $this->clientId;
-    }
-
-    /**
-     * @param string $clientId
-     */
-    public function setClientId(string $clientId): void
-    {
-        $this->clientId = $clientId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getClientSecret(): string
-    {
-        return $this->clientSecret;
-    }
-
-    /**
-     * @param string $clientSecret
-     */
-    public function setClientSecret(string $clientSecret): void
-    {
-        $this->clientSecret = $clientSecret;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBearer(): string
-    {
-        return $this->bearer;
-    }
-
-    /**
-     * @param string $bearer
-     */
-    public function setBearer(string $bearer): void
-    {
-        $this->bearer = $bearer;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRedirectUris(): string
-    {
-        return $this->redirectUris;
-    }
-
-    /**
-     * @param string $redirectUris
-     */
-    public function setRedirectUris(string $redirectUris): void
-    {
-        $this->redirectUris = $redirectUris;
-    }
-
-    /**
+     * Returns the client application website.
+     *
      * @return string
      */
     public function getWebsite(): string
@@ -322,6 +279,8 @@ class ConfigurationVO
     }
 
     /**
+     * Sets the client application website.
+     *
      * @param string $website
      */
     public function setWebsite(string $website): void
@@ -333,6 +292,48 @@ class ConfigurationVO
     }
 
     /**
+     * Returns the OAuth client id.
+     *
+     * @return string
+     */
+    public function getClientId(): string
+    {
+        return $this->clientId;
+    }
+
+    /**
+     * Sets the OAuth client id.
+     *
+     * @param string $clientId
+     */
+    public function setClientId(string $clientId): void
+    {
+        $this->clientId = $clientId;
+    }
+
+    /**
+     * Returns the OAuth client secret.
+     *
+     * @return string
+     */
+    public function getClientSecret(): string
+    {
+        return $this->clientSecret;
+    }
+
+    /**
+     * Sets the OAuth client secret.
+     *
+     * @param string $clientSecret
+     */
+    public function setClientSecret(string $clientSecret): void
+    {
+        $this->clientSecret = $clientSecret;
+    }
+
+    /**
+     * Returns the OAuth authorization code.
+     *
      * @return string
      */
     public function getAuthorizationCode(): string
@@ -341,10 +342,53 @@ class ConfigurationVO
     }
 
     /**
+     * Sets the OAuth authorization code.
+     *
      * @param string $code
      */
     public function setAuthorizationCode(string $code): void
     {
         $this->authorizationCode = $code;
     }
+
+    /**
+     * Returns the OAuth bearer token.
+     *
+     * @return string
+     */
+    public function getBearer(): string
+    {
+        return $this->bearer;
+    }
+
+    /**
+     * Sets the OAuth bearer token.
+     *
+     * @param string $bearer
+     */
+    public function setBearer(string $bearer): void
+    {
+        $this->bearer = $bearer;
+    }
+
+    /**
+     * Returns the OAuth redirect uris.
+     *
+     * @return string
+     */
+    public function getRedirectUris(): string
+    {
+        return $this->redirectUris;
+    }
+
+    /**
+     * Sets the OAuth redirect uris.
+     *
+     * @param string $redirectUris
+     */
+    public function setRedirectUris(string $redirectUris): void
+    {
+        $this->redirectUris = $redirectUris;
+    }
+
 }

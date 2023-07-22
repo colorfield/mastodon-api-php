@@ -55,8 +55,8 @@ $oAuth->config->setScopes([
     OAuthScope::read->name, 
     OAuthScope::write->name, 
     OAuthScope::follow->name,
-    OAuthScope::push->name]
-);
+    OAuthScope::push->name
+]);
 ```
 
 Note that this must be done while obtaining the token, so you cannot override this after.

@@ -2,7 +2,6 @@
 
 use Colorfield\Mastodon\MastodonAPI;
 use Colorfield\Mastodon\MastodonOAuth;
-use Dotenv\Dotenv;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
@@ -13,7 +12,6 @@ use PHPUnit\Framework\TestCase;
  */
 final class MastodonApiPublic extends TestCase
 {
-
     /**
      * @var MastodonAPI;
      */

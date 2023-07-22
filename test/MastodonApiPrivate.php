@@ -3,7 +3,6 @@
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Assert;
 use Dotenv\Dotenv;
-use Colorfield\Mastodon\OAuthScope;
 use Colorfield\Mastodon\MastodonOAuth;
 use Colorfield\Mastodon\MastodonAPI;
 
@@ -14,7 +13,6 @@ use Colorfield\Mastodon\MastodonAPI;
  */
 final class MastodonApiPrivate extends TestCase
 {
-
     /**
      * @var MastodonOAuth
      */

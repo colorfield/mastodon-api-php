@@ -10,7 +10,7 @@ use GuzzleHttp\Exception\GuzzleException;
 /**
  * Class MastodonOAuth.
  *
- * Usage: @todo
+ * Usage: see README.md
  */
 class MastodonOAuth
 {
