@@ -24,9 +24,10 @@ class MastodonAPI
     // @todo improve return type for the api response
 
     /**
-     * Creates the API object.
+     * Class Constructor.
      *
-     * @param ConfigurationVO $config
+     * @param ConfigurationVO $config The configuration value object.
+     * @param ClientInterface $client The client interface. Optional, defaults to new Client().
      */
     public function __construct(
         public ConfigurationVO $config,
@@ -65,8 +66,7 @@ class MastodonAPI
             'json' => $json,
         ]);
 
-        if ($response instanceof ResponseInterface
-          && $response->getStatusCode() == '200') {
+        if ($response->getStatusCode() == '200') {
             $result = json_decode($response->getBody(), true);
         } else {
             throw new Exception('ERROR ' . $response->getStatusCode() . ' : ' . $response->getReasonPhrase());
@@ -81,6 +81,7 @@ class MastodonAPI
      * @param array $params
      *
      * @return mixed
+     * @throws GuzzleException|Exception
      */
     public function get(string $endpoint, array $params = []): mixed
     {
@@ -93,6 +94,7 @@ class MastodonAPI
      * @param string $endpoint
      * @param array $params
      * @return mixed
+     * @throws GuzzleException|Exception
      */
     public function post(string $endpoint, array $params = []): mixed
     {
@@ -105,6 +107,7 @@ class MastodonAPI
      * @param string $endpoint
      * @param array $params
      * @return mixed
+     * @throws Exception
      */
     public function put(string $endpoint, array $params = []): mixed
     {
@@ -116,7 +119,9 @@ class MastodonAPI
      *
      * @param string $endpoint
      * @param array $params
+     *
      * @return mixed
+     * @throws Exception
      */
     public function patch(string $endpoint, array $params = []): mixed
     {
@@ -130,6 +135,7 @@ class MastodonAPI
      * @param array $params
      *
      * @return mixed
+     * @throws Exception
      */
     public function delete(string $endpoint, array $params = []): mixed
     {
@@ -143,6 +149,7 @@ class MastodonAPI
      * @param array $params
      *
      * @return mixed
+     * @throws Exception
      */
     public function stream(string $endpoint, array $params = []): mixed
     {

@@ -2,9 +2,9 @@
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Assert;
-use Colorfield\Mastodon\MastodonAPI;
+use Colorfield\Mastodon\OAuthScope;
 use Colorfield\Mastodon\MastodonOAuth;
-use Colorfield\Mastodon\Scope;
+use Colorfield\Mastodon\MastodonAPI;
 
 /**
  * Class MastodonAPITest

@@ -8,8 +8,6 @@ use InvalidArgumentException;
  * Class Configuration Value Object.
  *
  * Configuration used by the MastodonOAuth and MastodonAPI classes.
- *
- * @todo validate each setter
  */
 class ConfigurationVO
 {
@@ -86,12 +84,17 @@ class ConfigurationVO
     private string $authorizationCode;
 
     /**
-     * ConfigurationVO constructor.
+     * Class constructor for initializing the API client.
      *
-     * @todo define default timeout.
+     * @param string $clientName The name of the client (optional, default: self::DEFAULT_NAME).
+     * @param string $mastodonInstance The URL of the Mastodon instance (optional, default: self::DEFAULT_INSTANCE).
+     * @param string $redirectUris The redirect URIs for authentication (optional, default: self::DEFAULT_REDIRECT_URIS).
+     * @param string $apiVersion The version of the Mastodon API (optional, default: self::API_VERSION).
+     * @param string $website The website URL of the client (optional, default: self::DEFAULT_WEBSITE).
+     * @param array $scopes The required scopes for the client (optional, default: empty array).
+     *     Will be set to [OAuthScope::read->name, OAuthScope::write->name] if empty.
      *
-     * @param string $client_name
-     * @param string $mastodon_instance
+     * @return void
      */
     public function __construct(
         public string $clientName = self::DEFAULT_NAME,
