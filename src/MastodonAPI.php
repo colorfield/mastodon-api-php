@@ -8,7 +8,8 @@ use InvalidArgumentException;
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
 
-enum HttpOperations {
+enum HttpOperations
+{
     case GET;
     case POST;
     case PUT;
@@ -28,7 +29,6 @@ enum HttpOperations {
  */
 class MastodonAPI
 {
-
     // @todo use promoted properties
     // @todo improve return type for the api response
 
@@ -41,13 +41,13 @@ class MastodonAPI
      *
      * @param ConfigurationVO $config
      */
-    public function __construct(ConfigurationVO $config) 
+    public function __construct(ConfigurationVO $config)
     {
         $this->client = new Client();
 
         try {
             $this->config = $config;
-        }catch (InvalidArgumentException $exception) {
+        } catch (InvalidArgumentException $exception) {
             print($exception->getMessage());
         }
     }
@@ -87,7 +87,7 @@ class MastodonAPI
             if($response instanceof ResponseInterface
               && $response->getStatusCode() == '200') {
                 $result = json_decode($response->getBody(), true);
-            }else{
+            } else {
                 echo 'ERROR: Status code ' . $response->getStatusCode();
             }
             // @todo check thrown exception

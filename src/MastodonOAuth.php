@@ -13,7 +13,6 @@ use GuzzleHttp\ClientInterface;
  */
 class MastodonOAuth
 {
-
     public ConfigurationVO $config;
 
     private ClientInterface $client;
@@ -21,7 +20,8 @@ class MastodonOAuth
     /**
      * Creates the OAuth object from the configuration.
      */
-    public function __construct($client_name = ConfigurationVO::DEFAULT_NAME,
+    public function __construct(
+        $client_name = ConfigurationVO::DEFAULT_NAME,
         $mastodon_instance = ConfigurationVO::DEFAULT_INSTANCE
     ) {
         // @todo use promoted properties
@@ -44,7 +44,8 @@ class MastodonOAuth
         $uri = $this->config->getBaseUrl() . $endpoint;
         try {
             $response = $this->client->post(
-                $uri, [
+                $uri,
+                [
                     'json' => $json,
                 ]
             );
@@ -120,7 +121,7 @@ class MastodonOAuth
         $token = $this->getResponse('/oauth/token', $options);
         if (isset($token['access_token'])) {
             $this->config->setBearer($token['access_token']);
-        }else {
+        } else {
             throw new Exception('ERROR: no access token in API response');
         }
     }

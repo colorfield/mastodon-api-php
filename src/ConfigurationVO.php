@@ -26,35 +26,35 @@ class ConfigurationVO
      *
      * @var string
      */
-    const DEFAULT_INSTANCE = 'mastodon.social';
+    public const DEFAULT_INSTANCE = 'mastodon.social';
 
     /**
      * Application default name
      *
      * @var string
      */
-    const DEFAULT_NAME = 'MastodonAPIPHP';
+    public const DEFAULT_NAME = 'MastodonAPIPHP';
 
     /**
      * Mastodon API version.
      *
      * @var string
      */
-    const API_VERSION = 'v1';
+    public const API_VERSION = 'v1';
 
     /**
      * Default URI.
      *
      * @var string
      */
-    const DEFAULT_REDIRECT_URIS = 'urn:ietf:wg:oauth:2.0:oob';
+    public const DEFAULT_REDIRECT_URIS = 'urn:ietf:wg:oauth:2.0:oob';
 
     /**
      * Default website.
      *
      * @var string
      */
-    const DEFAULT_WEBSITE = 'https://colorfield.dev';
+    public const DEFAULT_WEBSITE = 'https://colorfield.dev';
 
     /**
      * Base URL.

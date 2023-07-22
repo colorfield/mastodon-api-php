@@ -1,7 +1,8 @@
 .idea/
 vendor/
 composer.lock
+.env
+# @todo to remove after using env vars
 test_credentials.php
 .phpunit.result.cache
-.env.local
-.env
+.php-cs-fixer.cache
