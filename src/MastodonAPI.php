@@ -15,7 +15,7 @@ use GuzzleHttp\Client;
  * @package  Mastodon-API-PHP
  * @author   Christophe Jossart <christophe@colorfield.eu>
  * @license  Apache License 2.0
- * @version  Release: <0.1.3>
+ * @version  Release: <0.1.4>
  * @link     https://github.com/colorfield/mastodon-api-php
  */
 class MastodonAPI
