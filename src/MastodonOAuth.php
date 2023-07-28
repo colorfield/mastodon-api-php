@@ -115,6 +115,8 @@ class MastodonOAuth
     public function getAccessToken(): string
     {
         $options = $this->config->getAccessTokenConfiguration();
+        // @todo fix workaround for plural / singular.
+        $options['redirect_uri'] = $options['redirect_uris'];
         $token = $this->getResponse('/oauth/token', $options);
         if (isset($token['access_token'])) {
             $this->config->setBearer($token['access_token']);
