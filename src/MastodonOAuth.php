@@ -47,7 +47,7 @@ class MastodonOAuth
             ]
         );
         // @todo $request->getHeader('content-type')
-        if ($response->getStatusCode() == '200') {
+        if ($response->getStatusCode() === 200) {
             $result = json_decode((string) $response->getBody(), true, 512, JSON_THROW_ON_ERROR);
         } else {
             throw new Exception('ERROR ' . $response->getStatusCode() . ' : ' . $response->getReasonPhrase());
