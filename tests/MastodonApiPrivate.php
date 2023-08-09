@@ -38,7 +38,7 @@ final class MastodonApiPrivate extends TestCase
         $this->oAuth->config->setClientId($_ENV['CLIENT_ID']);
         $this->oAuth->config->setClientSecret($_ENV['CLIENT_SECRET']);
         $this->oAuth->config->setBearer($_ENV['BEARER']);
-        $this->api = new Colorfield\Mastodon\MastodonAPI($this->oAuth->config);
+        $this->api = new MastodonAPI($this->oAuth->config);
     }
 
     public function testOAuthDefaultAuthorizationUrl()

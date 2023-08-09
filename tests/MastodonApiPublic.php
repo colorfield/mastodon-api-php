@@ -1,7 +1,7 @@
 <?php
 
 use Colorfield\Mastodon\MastodonAPI;
-use Colorfield\Mastodon\MastodonOAuth;
+use Colorfield\Mastodon\ConfigurationVO;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
@@ -24,12 +24,12 @@ final class MastodonApiPublic extends TestCase
     {
         $name = 'MyMastodonApp';
         $instance = 'mastodon.social';
-        $this->oAuth = new MastodonOAuth($name, $instance);
+        $config = new ConfigurationVO($name, $instance);
+        $this->api = new MastodonAPI($config);
     }
 
     public function testApiPublicTimeline()
     {
-        $this->api = new MastodonAPI($this->oAuth->config);
         $timeline = $this->api->get('/timelines/public', [], false);
         Assert::assertTrue(is_array($timeline));
 
