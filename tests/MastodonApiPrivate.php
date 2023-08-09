@@ -1,10 +1,10 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Assert;
-use Dotenv\Dotenv;
-use Colorfield\Mastodon\MastodonOAuth;
 use Colorfield\Mastodon\MastodonAPI;
+use Colorfield\Mastodon\MastodonOAuth;
+use Dotenv\Dotenv;
+use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class MastodonApiPrivate

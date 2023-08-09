@@ -2,8 +2,6 @@
 
 PHP wrapper for the Mastodon API, that includes OAuth helpers. Guzzle based.
 
-[![Build Status](https://travis-ci.org/colorfield/mastodon-api-php.png)](https://travis-ci.org/colorfield/mastodon-api-php)
-
 ## Getting started
 
 Install it via Composer.

@@ -36,5 +36,8 @@
         "friendsofphp/php-cs-fixer": "^3.22",
         "vimeo/psalm": "^5.13",
         "rector/rector": "^0.17.6"
+    },
+    "scripts": {
+        "test-public": "./vendor/bin/phpunit --configuration phpunit.xml --filter MastodonApiPublic --test-suffix MastodonApiPublic.php ./tests"
     }
 }
